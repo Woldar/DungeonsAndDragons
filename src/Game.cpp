@@ -8,8 +8,9 @@ void Game::initWindow()
 
 	screenManager.addScreen("Loch", std::make_unique<Loch>(screenManager));
 	screenManager.addScreen("Cutscene", std::make_unique<Cutscene>(screenManager));
+	screenManager.addScreen("Menu", std::make_unique<Menu>(screenManager));
 
-	screenManager.switchScreen("Cutscene");
+	screenManager.switchScreen("Menu");
 }
 
 void Game::initVariables()

@@ -1,4 +1,4 @@
-#include "Loch.h"
+#include "Screens/Loch.h"
 
 
 Loch::Loch(ScreenManager& screenManager) : screenManager(screenManager)
@@ -276,7 +276,7 @@ void Loch::zwolnijPamiec()
 
 }
 
-void Loch::handleEvent(const sf::Event& event)
+void Loch::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
 	// Check if the event is a key press
 	if (event.type == sf::Event::KeyPressed) {

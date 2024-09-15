@@ -18,7 +18,7 @@ int main()
 
             Screen* currentScreen = game.screenManager.getCurrentScreen();
             if (currentScreen) {
-                currentScreen->handleEvent(event);
+                currentScreen->handleEvent(event, *game.window);
             }
         }
 

@@ -12,7 +12,8 @@
 
 #include "Loch.h"
 #include "Cutscene.h"
-#include "ScreenManager.h"
+#include "Menu.h"
+#include "Managers/ScreenManager.h"
 
 class Game
 {

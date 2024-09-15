@@ -3,7 +3,8 @@
 #include "Poziom_Lochu.h"
 #include "Text.h"
 #include "Screen.h"
-#include "ScreenManager.h"
+#include "Managers/ScreenManager.h"
+#include "Button.h"
 
 #include <string>
 #include <string.h>
@@ -24,7 +25,7 @@ public:
 	void start();
 	void generujLoch();
 
-	void handleEvent(const sf::Event& event) override;
+	void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
 	void update(float deltaTime) override;
 	void draw(sf::RenderWindow& target) override;
 private:
@@ -32,6 +33,7 @@ private:
 	Text mText;
 	std::unique_ptr<Bohater> mBohater;
 	std::unique_ptr<Poziom_Lochu> mPoziom[10];
+	std::unique_ptr<Button> mPlayButton[2];
 
 	int wybor=0;
 	int poziomLochu=0;

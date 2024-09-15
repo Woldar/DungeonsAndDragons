@@ -8,7 +8,7 @@ public:
     virtual ~Screen() = default;
 
     // Handle events like keyboard and mouse input
-    virtual void handleEvent(const sf::Event& event) = 0;
+    virtual void handleEvent(const sf::Event& event, sf::RenderWindow& window) = 0;
 
     // Update the screen's state
     virtual void update(float deltaTime) = 0;
