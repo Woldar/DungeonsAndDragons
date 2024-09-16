@@ -4,6 +4,7 @@
 #include "Text.h"
 #include "Screen.h"
 #include "Managers/ScreenManager.h"
+//#include "Managers/MusicManager.h"
 #include "Button.h"
 
 #include <string>
@@ -28,6 +29,13 @@ public:
 	void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
 	void update(float deltaTime) override;
 	void draw(sf::RenderWindow& target) override;
+	void pauseMusic() override {
+		music.pause();
+	}
+
+	void resumeMusic() override{
+		music.play();
+	}
 private:
 	sf::Music music;
 	Text mText;
@@ -39,6 +47,7 @@ private:
 	int poziomLochu=0;
 	void wybierzBohatera();
 	void menuGracza();
+
 	void menuPrzeciwnika();
 	void walka();
 	void grabujPrzeciwnika(int iloscP, int iloscB);

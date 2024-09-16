@@ -12,10 +12,14 @@
 // Button class to encapsulate button properties and behavior
 class Button {
 public:
+    sf::Vector2f mSize;            // Size of the button
     sf::RectangleShape shape;
     sf::RectangleShape glowEffect; // This will be the glow around the button
     sf::Text text;
     sf::Font font;
+    sf::Sprite icon;              // Icon sprite
+    sf::Texture iconTexture;      // Texture for the icon
+
     std::function<void()> onClick; // Callback function for click event
 
     // Sound variables
@@ -26,6 +30,7 @@ public:
 
     Button(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label/*, std::string aType*/) {
         initFont();
+        mSize = size;
         shape.setSize(size);
         shape.setPosition(position);
         shape.setFillColor(sf::Color(0, 0, 0, 0));
@@ -65,12 +70,14 @@ public:
         if (isMouseOver(window)) {
             window.draw(glowEffect); // Draw the glow effect behind the button
             window.draw(shape);
+            window.draw(icon);   // Draw the icon
             window.draw(text);
             //shape.setFillColor(sf::Color::Green);
         }
         else
         {
             window.draw(shape);
+            window.draw(icon);   // Draw the icon
             window.draw(text);
             //shape.setFillColor(sf::Color::Blue);
         }
@@ -108,5 +115,30 @@ public:
             std::cerr << "Failed to load sound: " << soundFile << std::endl;
         }
         clickSound.setBuffer(clickSoundBuffer);
+    }
+
+    void setIcon(const std::string& iconPath)
+    {
+        if (iconTexture.loadFromFile(iconPath)) {
+            icon.setTexture(iconTexture);
+
+            // Calculate the scale to ensure the icon fits within the button
+            float iconScaleX = mSize.x / iconTexture.getSize().x * 0.5f;  // 50% of button width
+            float iconScaleY = mSize.y / iconTexture.getSize().y * 0.5f;  // 50% of button height
+            float iconScale = std::min(iconScaleX, iconScaleY);          // Choose the smaller scale to keep proportions
+            icon.setScale(iconScale, iconScale);
+
+            // Get the scaled icon's size
+            sf::FloatRect iconBounds = icon.getGlobalBounds();
+
+            // Position the icon in the center of the button
+            icon.setPosition(
+                shape.getPosition().x + mSize.x / 2.0f - (0.5f * iconBounds.width),   // Button's horizontal center
+                shape.getPosition().y + mSize.y / 2.0f - (0.5f * iconBounds.height)    // Button's vertical center
+            );
+        }
+        else {
+            std::cerr << "Failed to load icon texture\n";
+        }
     }
 };

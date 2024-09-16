@@ -50,8 +50,12 @@ int Cutscene::initMusic()
 {
 	if (!music.openFromFile("assets/music/male-heavy-breathing-67325.mp3"))
 		return -1; // error
-	music.play();
+	//music.play();
 	music.setLoop(true);
+
+	//MusicManager::getInstance().playMusic("assets/music/male-heavy-breathing-67325.mp3");
+	//MusicManager::getInstance().pauseMusic();
+	//return 0;
 }
 
 void Cutscene::initText()

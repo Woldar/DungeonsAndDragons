@@ -3,6 +3,7 @@
 #include "Button.h"
 #include "Screen.h"
 #include "Managers/ScreenManager.h"
+//#include "Managers/MusicManager.h"
 
 #include <string>
 #include <string.h>
@@ -23,6 +24,14 @@ public:
 	void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
 	void update(float deltaTime) override;
 	void draw(sf::RenderWindow& target) override;
+
+	void pauseMusic() override{
+		music.pause();
+	}
+
+	void resumeMusic() override {
+		music.play();
+	}
 private:
 	ScreenManager& screenManager;
 	sf::Music music;

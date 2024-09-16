@@ -31,6 +31,7 @@ public:
 	sf::RenderWindow* window;
 	ScreenManager screenManager;
 	sf::Clock clock;
+	//sf::Music music;
 
 	//Accessors
 

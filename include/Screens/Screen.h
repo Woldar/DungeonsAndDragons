@@ -2,6 +2,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 
 class Screen {
 public:
@@ -15,4 +17,8 @@ public:
 
     // Draw the screen
     virtual void draw(sf::RenderWindow& target) = 0;
+
+    virtual void pauseMusic() = 0;
+
+    virtual void resumeMusic() = 0;
 };

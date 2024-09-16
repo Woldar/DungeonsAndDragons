@@ -304,8 +304,12 @@ int Loch::initMusic()
 {
 	if (!music.openFromFile("assets/music/o-recinto-amaldicoado-189324.mp3"))
 		return -1; // error
-	music.play();
+	//music.play();
 	music.setLoop(true);
+
+	//MusicManager::getInstance().playMusic("assets/music/o-recinto-amaldicoado-189324.mp3");
+	//MusicManager::getInstance().pauseMusic();
+	//return 0;
 }
 
 void Loch::initText()

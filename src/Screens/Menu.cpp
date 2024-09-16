@@ -36,8 +36,12 @@ int Menu::initMusic()
 {
 	if (!music.openFromFile("assets/music/o-recinto-amaldicoado-189324.mp3"))
 		return -1; // error
-	music.play();
+	//music.play();
 	music.setLoop(true);
+
+    //MusicManager::getInstance().playMusic("assets/music/o-recinto-amaldicoado-189324.mp3");
+    //MusicManager::getInstance().pauseMusic();
+    //return 0;
 }
 
 void Menu::initBackground()
@@ -79,7 +83,7 @@ void Menu::initButtons()
         screenManager.switchScreen("Cutscene");
         });
 
-
 	mExitButton = std::make_unique<Button>(sf::Vector2f(maxWidth*0.75, maxHeight*5/144), sf::Vector2f(maxWidth * 0.125, maxHeight- (maxHeight * 5 / 144)), "Run away!");
-    mSettingsButton = std::make_unique<Button>(sf::Vector2f(maxWidth * 0.1, maxHeight * 36 / 144), sf::Vector2f(maxWidth * 0.025, maxHeight*0.05), "Settings");
+    mSettingsButton = std::make_unique<Button>(sf::Vector2f(maxWidth * 0.1, maxHeight * 1 / 6), sf::Vector2f(maxWidth * 0.025, maxHeight*0.05), "Settings");
+    mSettingsButton->setIcon("assets/icons/settings-gears.png");
 }

@@ -11,6 +11,8 @@ void Game::initWindow()
 	screenManager.addScreen("Menu", std::make_unique<Menu>(screenManager));
 
 	screenManager.switchScreen("Menu");
+	//music.setLoop(true);
+	this->screenManager.getCurrentScreen()->resumeMusic();
 }
 
 void Game::initVariables()

@@ -20,10 +20,10 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 # Include directories
-include_directories(include)
+include_directories(include include/Screens include/Managers)
 
 # Add the executable (add all .cpp files here)
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB SOURCES "src/*.cpp" "src/Screens/*.cpp")
 add_executable(DungeonAndDragons ${SOURCES})
 
 
