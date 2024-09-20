@@ -32,18 +32,24 @@ public:
 	void resumeMusic() override {
 		music.play();
 	}
+
+	float getFadeAlpha() const override;  // Return the current alpha for dimming
 private:
 	ScreenManager& screenManager;
 	sf::Music music;
 	sf::Texture backgroundTexture; // Texture to hold the background image
 	sf::Sprite backgroundSprite;   // Sprite to display the texture
+	std::unique_ptr<sf::Shader> dimmingShader; // Shader for screen dimming 
 	Text mText[2];
 	std::unique_ptr<Button> mPlayButton;
 	std::unique_ptr<Button> mExitButton;
 	std::unique_ptr<Button> mSettingsButton;
 
+	float backgroundAlpha;  // Control the fade effect for the background
+
 	int initMusic();
 	void initBackground();
 	void initText();
 	void initButtons();
+	void initShader();
 };

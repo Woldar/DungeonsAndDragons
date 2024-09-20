@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include "Screen.h"
+#include "OpenGLManager.h"
 
 class ScreenManager {
 public:
@@ -27,7 +28,14 @@ public:
         return currentScreen;
     }
 
+    OpenGLManager* getOpenGLManager()
+    {
+        return &openGLManager;
+    }
+
 private:
     std::unordered_map<std::string, std::unique_ptr<Screen>> screens;  // Store screens
     Screen* currentScreen = nullptr;  // Pointer to the current screen
+
+    OpenGLManager openGLManager;  // Manage OpenGL rendering across screens
 };

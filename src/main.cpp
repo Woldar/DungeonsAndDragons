@@ -31,6 +31,7 @@ int main()
 
         game.window->clear();
         if (currentScreen) {
+            //game.screenManager.getOpenGLManager()->renderBackground();
             currentScreen->draw(*game.window);
         }
         game.window->display();

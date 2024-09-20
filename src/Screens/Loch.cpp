@@ -317,3 +317,8 @@ void Loch::initText()
 	//mText[0].initText("Budzisz sie w ciemnym pomieszczeniu, nie wiesz jak sie tu znalazles.. niczego nie pamietasz..", true, 48, "Middle");
 	//mText[1].initText("Nacisnij ENTER by kontynuowac", false, 24,"RightDownCorner");
 }
+
+// Return the current alpha value for background dimming
+float Loch::getFadeAlpha() const {
+	return backgroundAlpha;
+}

@@ -7,6 +7,7 @@ Menu::Menu(ScreenManager& screenManager) : screenManager(screenManager)
     initBackground();
 	initText();
 	initButtons();
+    initShader();
 }
 Menu::~Menu()
 {
@@ -26,10 +27,87 @@ void Menu::update(float deltaTime)
 
 void Menu::draw(sf::RenderWindow& target)
 {
-    target.draw(backgroundSprite);
-	mPlayButton->draw(target);
-	mExitButton->draw(target);
-    mSettingsButton->draw(target);
+    // Get the size of the window to calculate the flipped Y-axis
+    float windowHeight = target.getSize().y;
+
+    // Check if the mouse is over any button and set shader accordingly
+    if (mPlayButton->aMouseIsOver) {
+        sf::Vector2f playButtonCenter = mPlayButton->getCenter();
+        // Flip the y-axis coordinate
+        playButtonCenter.y = windowHeight - playButtonCenter.y;
+        dimmingShader->setUniform("buttonCenter", playButtonCenter);
+        dimmingShader->setUniform("buttonRadius", (mPlayButton->mSize.x + mPlayButton->mSize.y)/8);
+
+        // Set the screen size for the shader
+        dimmingShader->setUniform("screenSize", sf::Vector2f(target.getSize().x, target.getSize().y));
+        // Set the button radius (optional, adjust based on your button size)
+
+        dimmingShader->setUniform("maxDimFactor", 0.99f);              // Maximum dimming factor (e.g., 70% dimming)
+
+        // Bind the texture to the shader
+        dimmingShader->setUniform("texture", sf::Shader::CurrentTexture);  // Bind the background texture
+
+        // Draw the background with the shader
+        sf::RenderStates states;
+        states.shader = dimmingShader.get();  // Apply the shader
+        target.draw(backgroundSprite, states);  // Draw the background with the shader applied
+
+        mPlayButton->draw(target);
+    }
+    else if (mExitButton->aMouseIsOver) {
+        sf::Vector2f exitButtonCenter = mExitButton->getCenter();
+        // Flip the y-axis coordinate
+        exitButtonCenter.y = windowHeight - exitButtonCenter.y;
+        dimmingShader->setUniform("buttonCenter", exitButtonCenter);
+        dimmingShader->setUniform("buttonRadius", (mExitButton->mSize.x + mExitButton->mSize.y)/8);
+
+        // Set the screen size for the shader
+        dimmingShader->setUniform("screenSize", sf::Vector2f(target.getSize().x, target.getSize().y));
+        // Set the button radius (optional, adjust based on your button size)
+
+        dimmingShader->setUniform("maxDimFactor", 0.99f);              // Maximum dimming factor (e.g., 70% dimming)
+
+        // Bind the texture to the shader
+        dimmingShader->setUniform("texture", sf::Shader::CurrentTexture);  // Bind the background texture
+
+        // Draw the background with the shader
+        sf::RenderStates states;
+        states.shader = dimmingShader.get();  // Apply the shader
+        target.draw(backgroundSprite, states);  // Draw the background with the shader applied
+
+        mExitButton->draw(target);
+    }
+    else if (mSettingsButton->aMouseIsOver) {
+        sf::Vector2f settingsButtonCenter = mSettingsButton->getCenter();
+        // Flip the y-axis coordinate
+        settingsButtonCenter.y = windowHeight - settingsButtonCenter.y;
+        dimmingShader->setUniform("buttonCenter", settingsButtonCenter);
+        dimmingShader->setUniform("buttonRadius", (mSettingsButton->mSize.x+ mSettingsButton->mSize.y)/2);
+
+        // Set the screen size for the shader
+        dimmingShader->setUniform("screenSize", sf::Vector2f(target.getSize().x, target.getSize().y));
+        // Set the button radius (optional, adjust based on your button size)
+
+        dimmingShader->setUniform("maxDimFactor", 0.99f);              // Maximum dimming factor (e.g., 70% dimming)
+
+        // Bind the texture to the shader
+        dimmingShader->setUniform("texture", sf::Shader::CurrentTexture);  // Bind the background texture
+
+        // Draw the background with the shader
+        sf::RenderStates states;
+        states.shader = dimmingShader.get();  // Apply the shader
+        target.draw(backgroundSprite, states);  // Draw the background with the shader applied
+
+        mSettingsButton->draw(target);
+    }
+    else {
+        // Draw the background normally without shader if no button is hovered
+        target.draw(backgroundSprite);
+
+        mPlayButton->draw(target);
+        mExitButton->draw(target);
+        mSettingsButton->draw(target);
+    }
 }
 
 int Menu::initMusic()
@@ -84,6 +162,24 @@ void Menu::initButtons()
         });
 
 	mExitButton = std::make_unique<Button>(sf::Vector2f(maxWidth*0.75, maxHeight*5/144), sf::Vector2f(maxWidth * 0.125, maxHeight- (maxHeight * 5 / 144)), "Run away!");
-    mSettingsButton = std::make_unique<Button>(sf::Vector2f(maxWidth * 0.1, maxHeight * 1 / 6), sf::Vector2f(maxWidth * 0.025, maxHeight*0.05), "Settings");
+    mSettingsButton = std::make_unique<Button>(sf::Vector2f(maxWidth * 0.06, maxHeight * 1 / 9), sf::Vector2f(maxWidth * 0.035, maxHeight*0.05), "Settings");
     mSettingsButton->setIcon("assets/icons/settings-gears.png");
+}
+
+// Return the current alpha value for background dimming
+float Menu::getFadeAlpha() const {
+    return backgroundAlpha;
+}
+
+void Menu::initShader()
+{
+    dimmingShader = std::make_unique<sf::Shader>();
+    if (!sf::Shader::isAvailable()) {
+        std::cerr << "Shaders are not supported on this system." << std::endl;
+    }
+
+    if (!dimmingShader->loadFromFile("shaders/radialDimShader.frag", sf::Shader::Fragment)) {
+        // Handle shader loading error
+        std::cerr << "Error loading shader!" << std::endl;
+    }
 }

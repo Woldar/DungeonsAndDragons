@@ -6,6 +6,8 @@ void Game::initWindow()
 	this->window = new sf::RenderWindow(videoMode, "Dungeons&Dragons", sf::Style::Fullscreen);
 	this->window->setFramerateLimit(144);
 
+	//this->screenManager.getOpenGLManager()->initOpenGL();
+
 	screenManager.addScreen("Loch", std::make_unique<Loch>(screenManager));
 	screenManager.addScreen("Cutscene", std::make_unique<Cutscene>(screenManager));
 	screenManager.addScreen("Menu", std::make_unique<Menu>(screenManager));
@@ -44,6 +46,8 @@ void Game::render()
 	//this->mLoch.render(this->window);
 
 	this->window->display();
+
+	this->window->popGLStates();  // Restore OpenGL state
 }
 
 void Game::pollEvents()

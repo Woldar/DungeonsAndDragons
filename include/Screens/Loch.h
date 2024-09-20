@@ -36,12 +36,16 @@ public:
 	void resumeMusic() override{
 		music.play();
 	}
+
+	float getFadeAlpha() const override;  // Return the current alpha for dimming
 private:
 	sf::Music music;
 	Text mText;
 	std::unique_ptr<Bohater> mBohater;
 	std::unique_ptr<Poziom_Lochu> mPoziom[10];
 	std::unique_ptr<Button> mPlayButton[2];
+
+	float backgroundAlpha;  // Control the fade effect for the background
 
 	int wybor=0;
 	int poziomLochu=0;

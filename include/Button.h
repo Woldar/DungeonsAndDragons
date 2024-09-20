@@ -19,6 +19,7 @@ public:
     sf::Font font;
     sf::Sprite icon;              // Icon sprite
     sf::Texture iconTexture;      // Texture for the icon
+    bool aMouseIsOver = false;
 
     std::function<void()> onClick; // Callback function for click event
 
@@ -68,6 +69,7 @@ public:
     // Draw the button
     void draw(sf::RenderWindow& window) {
         if (isMouseOver(window)) {
+            aMouseIsOver = true;
             window.draw(glowEffect); // Draw the glow effect behind the button
             window.draw(shape);
             window.draw(icon);   // Draw the icon
@@ -76,6 +78,7 @@ public:
         }
         else
         {
+            aMouseIsOver = false;
             window.draw(shape);
             window.draw(icon);   // Draw the icon
             window.draw(text);
@@ -123,8 +126,8 @@ public:
             icon.setTexture(iconTexture);
 
             // Calculate the scale to ensure the icon fits within the button
-            float iconScaleX = mSize.x / iconTexture.getSize().x * 0.5f;  // 50% of button width
-            float iconScaleY = mSize.y / iconTexture.getSize().y * 0.5f;  // 50% of button height
+            float iconScaleX = mSize.x / iconTexture.getSize().x * 0.8f;  // 50% of button width
+            float iconScaleY = mSize.y / iconTexture.getSize().y * 0.8f;  // 50% of button height
             float iconScale = std::min(iconScaleX, iconScaleY);          // Choose the smaller scale to keep proportions
             icon.setScale(iconScale, iconScale);
 
@@ -140,5 +143,10 @@ public:
         else {
             std::cerr << "Failed to load icon texture\n";
         }
+    }
+
+    sf::Vector2f Button::getCenter() const {
+        sf::FloatRect bounds = shape.getGlobalBounds();  // Assuming `shape` is your button shape
+        return sf::Vector2f(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);
     }
 };
