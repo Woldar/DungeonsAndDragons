@@ -27,6 +27,8 @@ public:
 
 	void pauseMusic() override{
 		music.pause();
+		playButtonSoundEffect.pause();
+		exitButtonSoundEffect.pause();
 	}
 
 	void resumeMusic() override {
@@ -37,9 +39,12 @@ public:
 private:
 	ScreenManager& screenManager;
 	sf::Music music;
+	sf::Music playButtonSoundEffect;
+	sf::Music exitButtonSoundEffect;
 	sf::Texture backgroundTexture; // Texture to hold the background image
 	sf::Sprite backgroundSprite;   // Sprite to display the texture
 	std::unique_ptr<sf::Shader> dimmingShader; // Shader for screen dimming 
+	std::unique_ptr<sf::Shader> brighteningShader; // Shader for screen brightning
 	Text mText[2];
 	std::unique_ptr<Button> mPlayButton;
 	std::unique_ptr<Button> mExitButton;

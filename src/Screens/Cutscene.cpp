@@ -18,7 +18,7 @@ void Cutscene::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 		// Check if the event is a key press
 		if (event.type == sf::Event::KeyPressed) {
 			// Check if the key pressed is "Enter"
-			if (event.key.code == sf::Keyboard::Enter) {
+			if (event.key.code == (sf::Keyboard::Enter)) {
 				// Handle the Enter key press
 				std::cout << "Switching to Loch Screen!" << std::endl;
 				screenManager.switchScreen("Loch");
@@ -26,6 +26,12 @@ void Cutscene::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 				// Implement specific logic here, like changing screens
 				// screenManager.pushScreen(std::make_unique<GameScreen>());
 			}
+		}
+		else if (event.type == sf::Event::MouseButtonReleased)
+		{
+			// Handle the Enter key press
+			std::cout << "Switching to Loch Screen!" << std::endl;
+			screenManager.switchScreen("Loch");
 		}
 	}
 }

@@ -35,24 +35,29 @@ void Menu::draw(sf::RenderWindow& target)
         sf::Vector2f playButtonCenter = mPlayButton->getCenter();
         // Flip the y-axis coordinate
         playButtonCenter.y = windowHeight - playButtonCenter.y;
-        dimmingShader->setUniform("buttonCenter", playButtonCenter);
-        dimmingShader->setUniform("buttonRadius", (mPlayButton->mSize.x + mPlayButton->mSize.y)/8);
+        brighteningShader->setUniform("buttonCenter", playButtonCenter);
+        brighteningShader->setUniform("buttonRadius", (mPlayButton->mSize.x + mPlayButton->mSize.y));
 
         // Set the screen size for the shader
-        dimmingShader->setUniform("screenSize", sf::Vector2f(target.getSize().x, target.getSize().y));
+        brighteningShader->setUniform("screenSize", sf::Vector2f(target.getSize().x, target.getSize().y));
         // Set the button radius (optional, adjust based on your button size)
 
-        dimmingShader->setUniform("maxDimFactor", 0.99f);              // Maximum dimming factor (e.g., 70% dimming)
+        brighteningShader->setUniform("maxBrightFactor", 2.0f);              // Maximum brightening factor (e.g., 70% dimming)
 
         // Bind the texture to the shader
-        dimmingShader->setUniform("texture", sf::Shader::CurrentTexture);  // Bind the background texture
+        brighteningShader->setUniform("texture", sf::Shader::CurrentTexture);  // Bind the background texture
 
         // Draw the background with the shader
         sf::RenderStates states;
-        states.shader = dimmingShader.get();  // Apply the shader
+        states.shader = brighteningShader.get();  // Apply the shader
         target.draw(backgroundSprite, states);  // Draw the background with the shader applied
 
         mPlayButton->draw(target);
+        if (playButtonSoundEffect.getStatus() <= 1)
+        {
+            playButtonSoundEffect.play();
+            music.setVolume(music.getVolume() / 2);
+        }
     }
     else if (mExitButton->aMouseIsOver) {
         sf::Vector2f exitButtonCenter = mExitButton->getCenter();
@@ -76,6 +81,11 @@ void Menu::draw(sf::RenderWindow& target)
         target.draw(backgroundSprite, states);  // Draw the background with the shader applied
 
         mExitButton->draw(target);
+        if (exitButtonSoundEffect.getStatus() <= 1)
+        {
+            exitButtonSoundEffect.play();
+            music.setVolume(music.getVolume() / 2);
+        }
     }
     else if (mSettingsButton->aMouseIsOver) {
         sf::Vector2f settingsButtonCenter = mSettingsButton->getCenter();
@@ -101,6 +111,17 @@ void Menu::draw(sf::RenderWindow& target)
         mSettingsButton->draw(target);
     }
     else {
+        if (exitButtonSoundEffect.getStatus() == 2)
+        {
+            exitButtonSoundEffect.pause();
+            music.setVolume(music.getVolume() * 2);
+        }
+        if (playButtonSoundEffect.getStatus() == 2)
+        {
+            playButtonSoundEffect.pause();
+            music.setVolume(music.getVolume() * 2);
+        }
+
         // Draw the background normally without shader if no button is hovered
         target.draw(backgroundSprite);
 
@@ -116,6 +137,18 @@ int Menu::initMusic()
 		return -1; // error
 	//music.play();
 	music.setLoop(true);
+
+    if (!playButtonSoundEffect.openFromFile("assets/music/no-evidence-of-disease-144022.mp3"))
+        return -1; // error
+    //music.play();
+    playButtonSoundEffect.setLoop(true);
+    playButtonSoundEffect.pause();
+
+    if (!exitButtonSoundEffect.openFromFile("assets/music/ghost-whispers-6030.mp3"))
+        return -1; // error
+    //music.play();
+    exitButtonSoundEffect.setLoop(true);
+    exitButtonSoundEffect.pause();
 
     //MusicManager::getInstance().playMusic("assets/music/o-recinto-amaldicoado-189324.mp3");
     //MusicManager::getInstance().pauseMusic();
@@ -173,12 +206,20 @@ float Menu::getFadeAlpha() const {
 
 void Menu::initShader()
 {
-    dimmingShader = std::make_unique<sf::Shader>();
     if (!sf::Shader::isAvailable()) {
         std::cerr << "Shaders are not supported on this system." << std::endl;
     }
 
+    dimmingShader = std::make_unique<sf::Shader>();
+
     if (!dimmingShader->loadFromFile("shaders/radialDimShader.frag", sf::Shader::Fragment)) {
+        // Handle shader loading error
+        std::cerr << "Error loading shader!" << std::endl;
+    }
+
+    brighteningShader = std::make_unique<sf::Shader>();
+
+    if (!brighteningShader->loadFromFile("shaders/radialBrighteningShader.frag", sf::Shader::Fragment)) {
         // Handle shader loading error
         std::cerr << "Error loading shader!" << std::endl;
     }
