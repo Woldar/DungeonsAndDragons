@@ -21,6 +21,4 @@ public:
     virtual void pauseMusic() = 0;
 
     virtual void resumeMusic() = 0;
-
-    virtual float getFadeAlpha() const = 0;
 };

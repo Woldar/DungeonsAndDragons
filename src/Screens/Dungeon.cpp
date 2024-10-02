@@ -1,7 +1,7 @@
-#include "Screens/Loch.h"
+#include "Screens/Dungeon.h"
 
 
-Loch::Loch(ScreenManager& screenManager) : screenManager(screenManager)
+Dungeon::Dungeon(ScreenManager& screenManager) : screenManager(screenManager)
 {
 	initMusic();
 	initText();
@@ -11,12 +11,12 @@ Loch::Loch(ScreenManager& screenManager) : screenManager(screenManager)
 	//std::cout << "Probujesz przypomniec sobie kim byles i jak sie nazywasz\n" << std::endl;
 	//wybierzBohatera();
 }
-Loch::~Loch()
+Dungeon::~Dungeon()
 {
 
 }
 
-void Loch::start()
+void Dungeon::start()
 {
 	do
 	{
@@ -26,7 +26,7 @@ void Loch::start()
 	} while (mBohater->zdrowie > 0 && poziomLochu < 10);
 }
 
-void Loch :: generujLoch()
+void Dungeon :: generujLoch()
 {
 	for (int i=0;i<9;i++)
 	{
@@ -36,105 +36,105 @@ void Loch :: generujLoch()
 
 }
 
-void Loch::wybierzBohatera()
+void Dungeon::wybierzBohatera()
 {
 	mBohater->wprowadzNazwe();
 	system("cls");
 	mBohater->wybierzKlase();
 }
 
-void Loch::menuGracza()
+void Dungeon::menuGracza()
 {
-	std::cout << "\n" << std::endl;
-	std::cout << "Jaki ruch chcesz wykonac?\n" << std::endl;
-	if (mBohater->mana >= 25)
-	{
-		std::cout << "1.Atakuj" << std::endl;
-		std::cout << "\nUmiejetnosci klasowe:\n" << std::endl;
-		switch (mBohater->klasaBohatera[0].numer)
-		{
-		case(1):
-			std::cout << "2.Gruba Skora (Dodaj '1' punkt pancerza ,a nastepnie zaatakuj)\tKoszt: 25 many\n" << std::endl;
-			std::cout << "3.Blok (Zredukuj o 10 punktow nastepne otrzymane obrazenia oraz zaatakuj)\tKoszt: 25 many\n" << std::endl;
-			break;
-		case(2):
-			std::cout << "2.Leczenie (Dodaj 10 punktow zdrowia ,a nastepnie zaatakuj)\tKoszt: 25 many\n" << std::endl;
-			std::cout << "3.Poswiecenie (Zwieksz swoja obrazenia o 25% do konca walki i zaatakuj)\tKoszt: 25 many\n" << std::endl;
-			break;
-		case(3):
-			std::cout << "2.Cios krytyczny (Zadaj podwojne obrazenia)\tKoszt: 25 many \n" << std::endl;
-			std::cout << "3.Oslepienie (Zredukuj obrazenia przeciwnika o 25% i zaatakuj)\tKoszt: 25 many \n" << std::endl;
-			break;
-		}
-		wyjatek();
-		switch (wybor)
-		{
-		case (1):
-			//BohaterK[0].atak();
-			mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
-			//mWalczacy->zdrowie = mWalczacy->zdrowie - mBohater->obrazenia;
-			//std::endl << Poziom[poziomLochu].Walczacy[1].getZdrowie;
-			break;
-		case (2):
-			if (mBohater->klasaBohatera[0].nazwaKlasy == "Rycerz")
-			{
-				mBohater->pancerz = mBohater->pancerz + 1;
-				mBohater->mana = mBohater->mana - 25;
-			}
-			if (mBohater->klasaBohatera[0].nazwaKlasy == "Kaplan")
-			{
-				mBohater->zdrowie = mBohater->zdrowie + 10;
-				mBohater->mana = mBohater->mana - 25;
-			}
-			if (mBohater->klasaBohatera[0].nazwaKlasy == "Lotr")
-			{
-				mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
-				mBohater->mana = mBohater->mana - 25;
-			}
+	//std::cout << "\n" << std::endl;
+	//std::cout << "Jaki ruch chcesz wykonac?\n" << std::endl;
+	//if (mBohater->mana >= 25)
+	//{
+	//	std::cout << "1.Atakuj" << std::endl;
+	//	std::cout << "\nUmiejetnosci klasowe:\n" << std::endl;
+	//	switch (mBohater->klasaBohatera[0].numer)
+	//	{
+	//	case(1):
+	//		std::cout << "2.Gruba Skora (Dodaj '1' punkt pancerza ,a nastepnie zaatakuj)\tKoszt: 25 many\n" << std::endl;
+	//		std::cout << "3.Blok (Zredukuj o 10 punktow nastepne otrzymane obrazenia oraz zaatakuj)\tKoszt: 25 many\n" << std::endl;
+	//		break;
+	//	case(2):
+	//		std::cout << "2.Leczenie (Dodaj 10 punktow zdrowia ,a nastepnie zaatakuj)\tKoszt: 25 many\n" << std::endl;
+	//		std::cout << "3.Poswiecenie (Zwieksz swoja obrazenia o 25% do konca walki i zaatakuj)\tKoszt: 25 many\n" << std::endl;
+	//		break;
+	//	case(3):
+	//		std::cout << "2.Cios krytyczny (Zadaj podwojne obrazenia)\tKoszt: 25 many \n" << std::endl;
+	//		std::cout << "3.Oslepienie (Zredukuj obrazenia przeciwnika o 25% i zaatakuj)\tKoszt: 25 many \n" << std::endl;
+	//		break;
+	//	}
+	//	wyjatek();
+	//	switch (wybor)
+	//	{
+	//	case (1):
+	//		//BohaterK[0].atak();
+	//		mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
+	//		//mWalczacy->zdrowie = mWalczacy->zdrowie - mBohater->obrazenia;
+	//		//std::endl << Poziom[poziomLochu].Walczacy[1].getZdrowie;
+	//		break;
+	//	case (2):
+	//		if (mBohater->klasaBohatera[0].nazwaKlasy == "Rycerz")
+	//		{
+	//			mBohater->pancerz = mBohater->pancerz + 1;
+	//			mBohater->mana = mBohater->mana - 25;
+	//		}
+	//		if (mBohater->klasaBohatera[0].nazwaKlasy == "Kaplan")
+	//		{
+	//			mBohater->zdrowie = mBohater->zdrowie + 10;
+	//			mBohater->mana = mBohater->mana - 25;
+	//		}
+	//		if (mBohater->klasaBohatera[0].nazwaKlasy == "Lotr")
+	//		{
+	//			mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
+	//			mBohater->mana = mBohater->mana - 25;
+	//		}
 
-			mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
-			break;
+	//		mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
+	//		break;
 
-		case (3):
-				if (mBohater->klasaBohatera[0].nazwaKlasy == "Rycerz")
-					{
-						mBohater->statusTury = "Blok";
-						mBohater->mana = mBohater->mana - 25;
-					}
-				if (mBohater->klasaBohatera[0].nazwaKlasy == "Kaplan")
-					{
-					mBohater->statusWalki = "Poswiecenie";
-					mBohater->mana = mBohater->mana - 25;
-					mBohater->obrazenia = mBohater->obrazenia * 1.25;
-					}
-				if (mBohater->klasaBohatera[0].nazwaKlasy == "Lotr")
-					{
-					mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->obrazenia -= (0.25 * mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->obrazenia);
-					mBohater->mana = mBohater->mana - 25;
-					}
-		
-				mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
-			
-					break;
-	}
-	}
+	//	case (3):
+	//			if (mBohater->klasaBohatera[0].nazwaKlasy == "Rycerz")
+	//				{
+	//					mBohater->statusTury = "Blok";
+	//					mBohater->mana = mBohater->mana - 25;
+	//				}
+	//			if (mBohater->klasaBohatera[0].nazwaKlasy == "Kaplan")
+	//				{
+	//				mBohater->statusWalki = "Poswiecenie";
+	//				mBohater->mana = mBohater->mana - 25;
+	//				mBohater->obrazenia = mBohater->obrazenia * 1.25;
+	//				}
+	//			if (mBohater->klasaBohatera[0].nazwaKlasy == "Lotr")
+	//				{
+	//				mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->obrazenia -= (0.25 * mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->obrazenia);
+	//				mBohater->mana = mBohater->mana - 25;
+	//				}
+	//	
+	//			mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
+	//		
+	//				break;
+	//}
+	//}
 
-	else
-	{
-		std::cout << "1.Atakuj" << std::endl;
-		wyjatek();
-		switch (wybor)
-		{
-		case 1:
-			//BohaterK[0].atak();
+	//else
+	//{
+	//	std::cout << "1.Atakuj" << std::endl;
+	//	wyjatek();
+	//	switch (wybor)
+	//	{
+	//	case 1:
+	//		//BohaterK[0].atak();
 
-			mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
-			//std::endl << Poziom[poziomLochu].Walczacy[1].getZdrowie;
-			break;
-		}
-	}
+	//		mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->zdrowie -= mBohater->obrazenia;
+	//		//std::endl << Poziom[poziomLochu].Walczacy[1].getZdrowie;
+	//		break;
+	//	}
+	//}
 }
-void Loch::menuPrzeciwnika()
+void Dungeon::menuPrzeciwnika()
 {
 	
 	if (mBohater->statusTury == "Blok")
@@ -159,7 +159,7 @@ void Loch::menuPrzeciwnika()
 
 	
 }
-void Loch::walka()
+void Dungeon::walka()
 {
 	system("cls");
 	std::cout << "\n"<< mPoziom[poziomLochu]->mPrzeciwnik[mPoziom[poziomLochu]->kierunek]->nazwa<<" zwlowieszczo na Ciebie spoglada, gotuj sie do walki..\n" << std::endl;
@@ -211,7 +211,7 @@ void Loch::walka()
 	}
 
 }
-void Loch::grabujPrzeciwnika(int iloscP,int iloscB)
+void Dungeon::grabujPrzeciwnika(int iloscP,int iloscB)
 {
 	if (poziomLochu < 9)
 	{
@@ -243,7 +243,7 @@ void Loch::grabujPrzeciwnika(int iloscP,int iloscB)
 		std::cout << "\n" << std::endl;
 	}
 }
-void Loch::wyjatek()
+void Dungeon::wyjatek()
 {
 	do
 	{
@@ -270,13 +270,13 @@ void Loch::wyjatek()
 		}
 	} while (wybor < 1 || wybor > 3);
 }
-void Loch::zwolnijPamiec()
+void Dungeon::zwolnijPamiec()
 {
 
 
 }
 
-void Loch::handleEvent(const sf::Event& event, sf::RenderWindow& window)
+void Dungeon::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
 	// Check if the event is a key press
 	if (event.type == sf::Event::KeyPressed) {
@@ -292,15 +292,15 @@ void Loch::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 	}
 }
 
-void Loch::update(float deltaTime)
+void Dungeon::update(float deltaTime)
 {
 }
 
-void Loch::draw(sf::RenderWindow& target)
+void Dungeon::draw(sf::RenderWindow& target)
 {
 }
 
-int Loch::initMusic()
+int Dungeon::initMusic()
 {
 	if (!music.openFromFile("assets/music/o-recinto-amaldicoado-189324.mp3"))
 		return -1; // error
@@ -312,13 +312,8 @@ int Loch::initMusic()
 	//return 0;
 }
 
-void Loch::initText()
+void Dungeon::initText()
 {
 	//mText[0].initText("Budzisz sie w ciemnym pomieszczeniu, nie wiesz jak sie tu znalazles.. niczego nie pamietasz..", true, 48, "Middle");
 	//mText[1].initText("Nacisnij ENTER by kontynuowac", false, 24,"RightDownCorner");
-}
-
-// Return the current alpha value for background dimming
-float Loch::getFadeAlpha() const {
-	return backgroundAlpha;
 }

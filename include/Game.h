@@ -10,9 +10,10 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
-#include "Loch.h"
+#include "Dungeon.h"
 #include "Cutscene.h"
 #include "Menu.h"
+#include "CharacterSelection.h"
 #include "Managers/ScreenManager.h"
 
 class Game

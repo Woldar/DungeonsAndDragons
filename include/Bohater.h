@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Broñ.h"
 #include "Pancerz.h"
-#include "Klasy.h"
 
 
 class Bohater {
@@ -31,7 +30,7 @@ public:
 	int iloscPancerzow = 0;
 	Bron bronieBohatera[10];
 	Pancerz pancerzBohatera[10];
-	Klasy klasaBohatera[1];
+	//Klasy klasaBohatera[1];
 	void wprowadzNazwe();
 	void bonusekwipunku();
 	void atak();

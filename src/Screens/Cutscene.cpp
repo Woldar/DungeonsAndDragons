@@ -17,21 +17,18 @@ void Cutscene::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 	{
 		// Check if the event is a key press
 		if (event.type == sf::Event::KeyPressed) {
-			// Check if the key pressed is "Enter"
-			if (event.key.code == (sf::Keyboard::Enter)) {
 				// Handle the Enter key press
-				std::cout << "Switching to Loch Screen!" << std::endl;
-				screenManager.switchScreen("Loch");
+				std::cout << "Switching to CharacterSelection Screen!" << std::endl;
+				screenManager.switchScreen("CharacterSelection");
 
 				// Implement specific logic here, like changing screens
 				// screenManager.pushScreen(std::make_unique<GameScreen>());
-			}
 		}
 		else if (event.type == sf::Event::MouseButtonReleased)
 		{
 			// Handle the Enter key press
-			std::cout << "Switching to Loch Screen!" << std::endl;
-			screenManager.switchScreen("Loch");
+			std::cout << "Switching to CharacterSelection Screen!" << std::endl;
+			screenManager.switchScreen("CharacterSelection");
 		}
 	}
 }
@@ -67,10 +64,5 @@ int Cutscene::initMusic()
 void Cutscene::initText()
 {
 	mText[0].initText("Budzisz sie w ciemnym pomieszczeniu, nie wiesz jak sie tu znalazles.. niczego nie pamietasz..", true, 48, "Middle");
-	mText[1].initText("Nacisnij ENTER by kontynuowac", false, 24,"RightDownCorner");
-}
-
-// Return the current alpha value for background dimming
-float Cutscene::getFadeAlpha() const {
-	return backgroundAlpha;
+	mText[1].initText("Nacisnij dowolny klawisz by kontynuowac", false, 24,"RightDownCorner");
 }

@@ -1,1 +1,0 @@
-#include "Umiejêtnoœci.h"

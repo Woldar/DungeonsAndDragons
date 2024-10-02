@@ -17,11 +17,11 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
-class Loch : public Screen
+class Dungeon : public Screen
 {
 public:
-	Loch(ScreenManager& screenManager);
-	~Loch();
+	Dungeon(ScreenManager& screenManager);
+	~Dungeon();
 
 	void start();
 	void generujLoch();
@@ -36,8 +36,6 @@ public:
 	void resumeMusic() override{
 		music.play();
 	}
-
-	float getFadeAlpha() const override;  // Return the current alpha for dimming
 private:
 	sf::Music music;
 	Text mText;

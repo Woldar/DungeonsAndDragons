@@ -27,8 +27,6 @@ public:
     sf::SoundBuffer clickSoundBuffer;
     sf::Sound clickSound;
 
-    Button();
-
     Button(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label/*, std::string aType*/) {
         initFont();
         mSize = size;
@@ -145,8 +143,12 @@ public:
         }
     }
 
-    sf::Vector2f Button::getCenter() const {
+    sf::Vector2f getCenter() const {
         sf::FloatRect bounds = shape.getGlobalBounds();  // Assuming `shape` is your button shape
         return sf::Vector2f(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);
+    }
+
+    sf::RectangleShape getShape() const {
+        return shape;
     }
 };

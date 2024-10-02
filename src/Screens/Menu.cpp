@@ -199,11 +199,6 @@ void Menu::initButtons()
     mSettingsButton->setIcon("assets/icons/settings-gears.png");
 }
 
-// Return the current alpha value for background dimming
-float Menu::getFadeAlpha() const {
-    return backgroundAlpha;
-}
-
 void Menu::initShader()
 {
     if (!sf::Shader::isAvailable()) {

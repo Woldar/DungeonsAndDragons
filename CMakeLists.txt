@@ -7,9 +7,13 @@ project(DungeonsAndDragons)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Add the executable (add all .cpp files here)
+file(GLOB SOURCES "src/*.cpp" "src/Screens/*.cpp" "src/Managers/*.cpp" "Classes/*.cpp")
+add_executable(DungeonAndDragons ${SOURCES})
+
 # Define the output directory for binaries
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 # Fetch and include SFML
 include(FetchContent)
@@ -26,10 +30,6 @@ find_package(OpenGL REQUIRED)
 
 # Include directories
 include_directories(include include/Screens include/Managers)
-
-# Add the executable (add all .cpp files here)
-file(GLOB SOURCES "src/*.cpp" "src/Screens/*.cpp" "src/Managers/*.cpp")
-add_executable(DungeonAndDragons ${SOURCES})
 
 # Link SFML and OpenGL libraries
 target_link_libraries(DungeonAndDragons PRIVATE sfml-graphics sfml-audio sfml-system sfml-network sfml-window OpenGL::GL)
