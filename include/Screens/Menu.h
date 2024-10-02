@@ -3,6 +3,7 @@
 #include "Button.h"
 #include "Screen.h"
 #include "Managers/ScreenManager.h"
+#include "Shaders.h"
 //#include "Managers/MusicManager.h"
 
 #include <string>
@@ -41,12 +42,12 @@ private:
 	sf::Music exitButtonSoundEffect;
 	sf::Texture backgroundTexture; // Texture to hold the background image
 	sf::Sprite backgroundSprite;   // Sprite to display the texture
-	std::unique_ptr<sf::Shader> dimmingShader; // Shader for screen dimming 
-	std::unique_ptr<sf::Shader> brighteningShader; // Shader for screen brightning
+	std::shared_ptr<sf::Shader> mDimmingShader; // Shader for screen dimming 
+	std::shared_ptr<sf::Shader> mBrighteningShader; // Shader for screen brightning
 	Text mText[2];
-	std::unique_ptr<Button> mPlayButton;
-	std::unique_ptr<Button> mExitButton;
-	std::unique_ptr<Button> mSettingsButton;
+	std::shared_ptr<Button> mPlayButton;
+	std::shared_ptr<Button> mExitButton;
+	std::shared_ptr<Button> mSettingsButton;
 
 	float backgroundAlpha;  // Control the fade effect for the background
 
