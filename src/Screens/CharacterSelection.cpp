@@ -23,6 +23,8 @@ void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& w
 					{
 						mExtendedClassView->setIcon(classCharacter->getIconPath());
 						mExtendedClassView->textSpecialAbilities.setString(classCharacter->getSpecialAbilities());
+						mExtendedClassView->textStartingStatistics.setString(classCharacter->getStartingStatistics());
+						mExtendedClassView->setTextsPositions();
 					}
 				}
 			}

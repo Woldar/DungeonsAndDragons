@@ -54,7 +54,7 @@ public:
         // Center text inside the ClassTab
         sf::FloatRect textRectSpecialAbilities = textSpecialAbilities.getLocalBounds();
         textSpecialAbilities.setOrigin(textRectSpecialAbilities.left + textRectSpecialAbilities.width / 2.0f, textRectSpecialAbilities.top + textRectSpecialAbilities.height / 2.0f);
-        textSpecialAbilities.setPosition(sf::Vector2f(maxWidth * 0.1, maxHeight * 0.1));
+        textSpecialAbilities.setPosition(sf::Vector2f(maxWidth * 0.1f, maxHeight * 0.1f));
 
         textStartingStatistics.setFont(font);
         textStartingStatistics.setString(label);
@@ -64,8 +64,7 @@ public:
         mTextColorMouseNotOver = sf::Color::White;
         // Center text inside the ClassTab
         sf::FloatRect textRectStartingStatistics = textStartingStatistics.getLocalBounds();
-        textStartingStatistics.setOrigin(textRectStartingStatistics.left + textRectStartingStatistics.width / 2.0f, textRectStartingStatistics.top + textRectStartingStatistics.height / 2.0f);
-        textStartingStatistics.setPosition(sf::Vector2f(maxWidth * 0.1, maxHeight * 0.1));
+        //textStartingStatistics.setOrigin(textRectStartingStatistics.left + textRectStartingStatistics.width / 2.0f, textRectStartingStatistics.top + textRectStartingStatistics.height / 2.0f);
 
         // Glow effect setup (a larger rectangle surrounding the ClassTab)
         glowEffect.setSize({ size.x + 20.0f, size.y + 20.0f }); // Slightly larger than the ClassTab
@@ -105,6 +104,7 @@ public:
             //dimmingShader(mDimmingShader, window, icon);
             window.draw(icon); // Draw the icon with the shader applied
             window.draw(textSpecialAbilities);
+            window.draw(textStartingStatistics);
         }
         else
         {
@@ -114,6 +114,7 @@ public:
             //dimmingShader(mDimmingShader, window, icon);
             window.draw(icon); // Draw the icon with the shader applied
             window.draw(textSpecialAbilities);
+            window.draw(textStartingStatistics);
         }
 
     }
@@ -179,5 +180,14 @@ public:
 
     sf::RectangleShape getShape() const {
         return shape;
+    }
+
+    void setTextsPositions()
+    {
+        sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+        int maxWidth = desktopMode.width;
+        int maxHeight = desktopMode.height;
+
+        textStartingStatistics.setPosition(maxWidth * 0.1f, textSpecialAbilities.getGlobalBounds().getPosition().y + textSpecialAbilities.getGlobalBounds().getSize().y);
     }
 };

@@ -17,6 +17,7 @@ public:
     void update();
     void initText(std::string aString, bool aAnimate, int aSize, std::string aPlacement);
     bool state;
+    float mPadding = 10.0f;
 private:
     sf::Text mText;
     sf::Font font;

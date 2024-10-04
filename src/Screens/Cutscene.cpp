@@ -63,6 +63,6 @@ int Cutscene::initMusic()
 
 void Cutscene::initText()
 {
-	mText[0].initText("Budzisz sie w ciemnym pomieszczeniu, nie wiesz jak sie tu znalazles.. niczego nie pamietasz..", true, 48, "Middle");
+	mText[0].initText("Budzisz sie w ciemnym pomieszczeniu, nie wiesz jak sie tu znalazles.. niczego nie pamietasz..", true, 46, "LeftSide");
 	mText[1].initText("Nacisnij dowolny klawisz by kontynuowac", false, 24,"RightDownCorner");
 }

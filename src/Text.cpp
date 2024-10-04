@@ -27,7 +27,7 @@ std::string Text::wrapText(const std::string& str, sf::Font& font, unsigned int 
         testLine.setString(line + word + " ");  // Przetestuj aktualn¹ liniê z dodanym s³owem
 
         // Jeœli dodanie s³owa przekroczy szerokoœæ okna, dodaj now¹ liniê
-        if (testLine.getLocalBounds().width > maxWidth) {
+        if (testLine.getLocalBounds().width + mPadding*2 > maxWidth) {
             result += line + "\n";  // Dodaj istniej¹c¹ liniê do wyniku z now¹ lini¹
             line = word + " ";      // Rozpocznij now¹ liniê
         }
@@ -112,15 +112,22 @@ void Text::place()
     if (mPlacement == "Middle")
     {
         sf::FloatRect textBounds = mText.getLocalBounds();
-        float centerX = (maxWidth - textBounds.width) / 2 - textBounds.left;
-        float centerY = (maxHeight - textBounds.height) / 2 - textBounds.top;
+        float centerX = (maxWidth - textBounds.width) / 2 - textBounds.left + mPadding;
+        float centerY = (maxHeight - textBounds.height) / 2 - textBounds.top + mPadding;
         mText.setPosition(centerX, centerY);
+    }
+    if (mPlacement == "LeftSide")
+    {
+        sf::FloatRect textBounds = mText.getLocalBounds();
+        float leftSideX = -textBounds.left + mPadding;
+        float centerY = (maxHeight - textBounds.height) / 2 - textBounds.top + mPadding;
+        mText.setPosition(leftSideX, centerY);
     }
     if (mPlacement == "RightDownCorner")
     {
         sf::FloatRect textBounds = mText.getLocalBounds();
-        float rightX = maxWidth - textBounds.width - textBounds.left;  // Position for right alignment
-        float bottomY = maxHeight - textBounds.height - textBounds.top; // Position for bottom alignment
+        float rightX = maxWidth - textBounds.width - textBounds.left + mPadding;  // Position for right alignment
+        float bottomY = maxHeight - textBounds.height - textBounds.top + mPadding; // Position for bottom alignment
         mText.setPosition(rightX, bottomY);
     }
 

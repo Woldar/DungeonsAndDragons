@@ -13,6 +13,7 @@ public:
     std::string getName() const { return mName; }
     std::string getIconPath() const { return mIconPath; }
     std::string getSpecialAbilities() const { return mSpecialAbilities; }
+    std::string getStartingStatistics() const { return mStartingStatistics; }
 
     // Return the deck of cards for this character class
     const std::vector<Card>& getDeck() const { return mDeck; }
