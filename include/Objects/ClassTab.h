@@ -16,7 +16,8 @@ public:
     sf::Vector2f mSize;            // Size of the ClassTab
     sf::RectangleShape shape;
     sf::RectangleShape glowEffect; // This will be the glow around the ClassTab
-    sf::Text text;
+    sf::Text textSpecialAbilities;
+    sf::Text textStartingStatistics;
     sf::Font font;
     sf::Sprite icon;              // Icon sprite
     sf::Texture iconTexture;      // Texture for the icon
@@ -40,16 +41,31 @@ public:
         shape.setPosition(position);
         shape.setFillColor(sf::Color(0, 0, 0, 0));
         
-        text.setFont(font);
-        text.setString(label);
-        text.setCharacterSize(24);
-        text.setFillColor(sf::Color::White);
+        sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+        int maxWidth = desktopMode.width;
+        int maxHeight = desktopMode.height;
+
+        textSpecialAbilities.setFont(font);
+        textSpecialAbilities.setString(label);
+        textSpecialAbilities.setCharacterSize(32);
+        textSpecialAbilities.setFillColor(sf::Color::White);
         mTextColorMouseOver = sf::Color::White;
         mTextColorMouseNotOver = sf::Color::White;
         // Center text inside the ClassTab
-        sf::FloatRect textRect = text.getLocalBounds();
-        text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-        text.setPosition(shape.getPosition().x + size.x / 2.0f, shape.getPosition().y + size.y / 2.0f);
+        sf::FloatRect textRectSpecialAbilities = textSpecialAbilities.getLocalBounds();
+        textSpecialAbilities.setOrigin(textRectSpecialAbilities.left + textRectSpecialAbilities.width / 2.0f, textRectSpecialAbilities.top + textRectSpecialAbilities.height / 2.0f);
+        textSpecialAbilities.setPosition(sf::Vector2f(maxWidth * 0.1, maxHeight * 0.1));
+
+        textStartingStatistics.setFont(font);
+        textStartingStatistics.setString(label);
+        textStartingStatistics.setCharacterSize(32);
+        textStartingStatistics.setFillColor(sf::Color::White);
+        mTextColorMouseOver = sf::Color::White;
+        mTextColorMouseNotOver = sf::Color::White;
+        // Center text inside the ClassTab
+        sf::FloatRect textRectStartingStatistics = textStartingStatistics.getLocalBounds();
+        textStartingStatistics.setOrigin(textRectStartingStatistics.left + textRectStartingStatistics.width / 2.0f, textRectStartingStatistics.top + textRectStartingStatistics.height / 2.0f);
+        textStartingStatistics.setPosition(sf::Vector2f(maxWidth * 0.1, maxHeight * 0.1));
 
         // Glow effect setup (a larger rectangle surrounding the ClassTab)
         glowEffect.setSize({ size.x + 20.0f, size.y + 20.0f }); // Slightly larger than the ClassTab
@@ -83,21 +99,21 @@ public:
     void draw(sf::RenderWindow& window) {
         if (isMouseOver(window)) {
             mMouseIsOver = true;
-            text.setFillColor(mTextColorMouseOver);
+            textSpecialAbilities.setFillColor(mTextColorMouseOver);
             window.draw(glowEffect); // Draw the glow effect behind the ClassTab
             window.draw(shape);
             //dimmingShader(mDimmingShader, window, icon);
             window.draw(icon); // Draw the icon with the shader applied
-            window.draw(text);
+            window.draw(textSpecialAbilities);
         }
         else
         {
             mMouseIsOver = false;
-            text.setFillColor(mTextColorMouseNotOver);
+            textSpecialAbilities.setFillColor(mTextColorMouseNotOver);
             window.draw(shape);
             //dimmingShader(mDimmingShader, window, icon);
             window.draw(icon); // Draw the icon with the shader applied
-            window.draw(text);
+            window.draw(textSpecialAbilities);
         }
 
     }

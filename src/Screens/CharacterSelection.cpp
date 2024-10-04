@@ -22,6 +22,7 @@ void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& w
 					if (classCharacter->getName() == button->text.getString())
 					{
 						mExtendedClassView->setIcon(classCharacter->getIconPath());
+						mExtendedClassView->textSpecialAbilities.setString(classCharacter->getSpecialAbilities());
 					}
 				}
 			}
