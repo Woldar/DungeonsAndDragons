@@ -11,6 +11,7 @@ public:
     virtual ~CharacterClass() = default;
 
     std::string getName() const { return mName; }
+    std::string getIconPath() const { return mIconPath; }
 
     // Return the deck of cards for this character class
     const std::vector<Card>& getDeck() const { return mDeck; }
@@ -18,4 +19,5 @@ public:
 protected:
     std::string mName;
     std::vector<Card> mDeck;  // Deck of cards specific to the character class
+    std::string mIconPath;
 };

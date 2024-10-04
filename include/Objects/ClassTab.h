@@ -8,18 +8,22 @@
 
 #include <iostream>
 #include <functional> // For std::function
+#include "Shaders.h"
 
-// Button class to encapsulate button properties and behavior
-class Button {
+// ClassTab class to encapsulate ClassTab properties and behavior
+class ClassTab {
 public:
-    sf::Vector2f mSize;            // Size of the button
+    sf::Vector2f mSize;            // Size of the ClassTab
     sf::RectangleShape shape;
-    sf::RectangleShape glowEffect; // This will be the glow around the button
+    sf::RectangleShape glowEffect; // This will be the glow around the ClassTab
     sf::Text text;
     sf::Font font;
     sf::Sprite icon;              // Icon sprite
     sf::Texture iconTexture;      // Texture for the icon
-    bool aMouseIsOver = false;
+    sf::Color mTextColorMouseOver;
+    sf::Color mTextColorMouseNotOver;
+    bool mMouseIsOver = false;
+    bool mIsActive = true;
 
     std::function<void()> onClick; // Callback function for click event
 
@@ -27,7 +31,9 @@ public:
     sf::SoundBuffer clickSoundBuffer;
     sf::Sound clickSound;
 
-    Button(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label/*, std::string aType*/) {
+    sf::Shader mDimmingShader;  // Shader for dimming effect
+
+    ClassTab(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label/*, std::string aType*/) {
         initFont();
         mSize = size;
         shape.setSize(size);
@@ -38,20 +44,29 @@ public:
         text.setString(label);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::White);
-        // Center text inside the button
+        mTextColorMouseOver = sf::Color::White;
+        mTextColorMouseNotOver = sf::Color::White;
+        // Center text inside the ClassTab
         sf::FloatRect textRect = text.getLocalBounds();
         text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
         text.setPosition(shape.getPosition().x + size.x / 2.0f, shape.getPosition().y + size.y / 2.0f);
 
-        // Glow effect setup (a larger rectangle surrounding the button)
-        glowEffect.setSize({ size.x + 20.0f, size.y + 20.0f }); // Slightly larger than the button
-        glowEffect.setPosition({ position.x - 10.0f, position.y - 10.0f }); // Centered around the button
+        // Glow effect setup (a larger rectangle surrounding the ClassTab)
+        glowEffect.setSize({ size.x + 20.0f, size.y + 20.0f }); // Slightly larger than the ClassTab
+        glowEffect.setPosition({ position.x - 10.0f, position.y - 10.0f }); // Centered around the ClassTab
         glowEffect.setFillColor(sf::Color(0, 0, 0, 100)); // Yellow glow, semi-transparent
 
         if (!clickSoundBuffer.loadFromFile("assets/music/old-radio-button-click-97549.mp3")) {
             // Handle error
             std::cerr << "Failed to load sound: " << "assets/music/old-radio-button-click-97549.mp3" << std::endl;
         }
+
+        // Load the dimming shader
+        if (!mDimmingShader.loadFromFile("shaders/radialDimShader.frag", sf::Shader::Fragment)) {
+            // Handle shader loading error
+            std::cerr << "Error loading shader!" << std::endl;
+        }
+
         clickSound.setBuffer(clickSoundBuffer);
     }
 
@@ -64,23 +79,25 @@ public:
         shape.setFillColor(color);
     }
 
-    // Draw the button
+    // Draw the ClassTab
     void draw(sf::RenderWindow& window) {
         if (isMouseOver(window)) {
-            aMouseIsOver = true;
-            window.draw(glowEffect); // Draw the glow effect behind the button
+            mMouseIsOver = true;
+            text.setFillColor(mTextColorMouseOver);
+            window.draw(glowEffect); // Draw the glow effect behind the ClassTab
             window.draw(shape);
-            window.draw(icon);   // Draw the icon
+            //dimmingShader(mDimmingShader, window, icon);
+            window.draw(icon); // Draw the icon with the shader applied
             window.draw(text);
-            //shape.setFillColor(sf::Color::Green);
         }
         else
         {
-            aMouseIsOver = false;
+            mMouseIsOver = false;
+            text.setFillColor(mTextColorMouseNotOver);
             window.draw(shape);
-            window.draw(icon);   // Draw the icon
+            //dimmingShader(mDimmingShader, window, icon);
+            window.draw(icon); // Draw the icon with the shader applied
             window.draw(text);
-            //shape.setFillColor(sf::Color::Blue);
         }
 
     }
@@ -94,9 +111,9 @@ public:
         }
     }
 
-    // Check if the button was clicked
+    // Check if the ClassTab was clicked
     void checkClick(const sf::Event& event, const sf::RenderWindow& window) {
-        if (isMouseOver(window) && event.type == sf::Event::MouseButtonReleased) {
+        if (isMouseOver(window) && event.type == sf::Event::MouseButtonReleased && mIsActive) {
             if (onClick) {
                 onClick(); // Trigger the callback if set
                 clickSound.play();
@@ -104,12 +121,12 @@ public:
         }
     }
 
-    // Set the callback function for button click
+    // Set the callback function for ClassTab click
     void setOnClick(std::function<void()> callback) {
         onClick = callback;
     }
 
-    // Set the sound for the button click
+    // Set the sound for the ClassTab click
     void initClickSound(const std::string& soundFile) {
         if (!clickSoundBuffer.loadFromFile(soundFile)) {
             // Handle error
@@ -123,19 +140,15 @@ public:
         if (iconTexture.loadFromFile(iconPath)) {
             icon.setTexture(iconTexture);
 
-            // Calculate the scale to ensure the icon fits within the button
-            float iconScaleX = mSize.x / iconTexture.getSize().x * 0.8f;  // 50% of button width
-            float iconScaleY = mSize.y / iconTexture.getSize().y * 0.8f;  // 50% of button height
-            float iconScale = std::min(iconScaleX, iconScaleY);          // Choose the smaller scale to keep proportions
-            icon.setScale(iconScale, iconScale);
+            //icon.setScale(iconScale, iconScale);
 
             // Get the scaled icon's size
             sf::FloatRect iconBounds = icon.getGlobalBounds();
 
             // Position the icon in the center of the button
             icon.setPosition(
-                shape.getPosition().x + mSize.x / 2.0f - (0.5f * iconBounds.width),   // Button's horizontal center
-                shape.getPosition().y + mSize.y / 2.0f - (0.5f * iconBounds.height)    // Button's vertical center
+                shape.getPosition().x + mSize.x  - (1.05f * iconBounds.width),   // ClassTab's horizontal center
+                shape.getPosition().y + mSize.y / 2.0f - (0.5f * iconBounds.height)    // ClassTab's vertical center
             );
         }
         else {
@@ -144,7 +157,7 @@ public:
     }
 
     sf::Vector2f getCenter() const {
-        sf::FloatRect bounds = shape.getGlobalBounds();  // Assuming `shape` is your button shape
+        sf::FloatRect bounds = shape.getGlobalBounds();  // Assuming `shape` is your ClassTab shape
         return sf::Vector2f(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);
     }
 

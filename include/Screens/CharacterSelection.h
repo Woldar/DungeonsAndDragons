@@ -3,7 +3,8 @@
 #include "Screen.h"
 #include "Managers/ScreenManager.h"
 #include "Managers/ClassManager.h"
-#include "Button.h"
+#include "Objects/Button.h"
+#include "Objects/ClassTab.h"
 
 #include <string>
 #include <string.h>
@@ -90,7 +91,10 @@ private:
 	ScreenManager& screenManager;
 	ClassManager classManager;
 	sf::Music music;
-	std::vector<std::unique_ptr<Button>> mButtons;
+	std::vector<std::unique_ptr<Button>> mClassesButtons;
+	std::unique_ptr<ClassTab> mExtendedClassView;
+
+	bool mExtendedView;
 	//std::unique_ptr<Button> mButtons;
 
 	float backgroundAlpha;  // Control the fade effect for the background

@@ -12,24 +12,21 @@ CharacterSelection::~CharacterSelection()
 
 void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
-	//if (mText[0].state == true)
-	//{
-	//	// Check if the event is a key press
-	//	if (event.type == sf::Event::KeyPressed) {
-	//			// Handle the Enter key press
-	//			std::cout << "Switching to Loch Screen!" << std::endl;
-	//			screenManager.switchScreen("Loch");
-
-	//			// Implement specific logic here, like changing screens
-	//			// screenManager.pushScreen(std::make_unique<GameScreen>());
-	//	}
-	//	else if (event.type == sf::Event::MouseButtonReleased)
-	//	{
-	//		// Handle the Enter key press
-	//		std::cout << "Switching to Loch Screen!" << std::endl;
-	//		screenManager.switchScreen("Loch");
-	//	}
-	//}
+	if (event.type == sf::Event::MouseButtonReleased) {
+		for (auto& button : mClassesButtons) {
+			if (button->checkClickBool(event, window))
+			{
+				const auto& classes = classManager.getAvailableClasses();
+				for (auto& classCharacter : classes)
+				{
+					if (classCharacter->getName() == button->text.getString())
+					{
+						mExtendedClassView->setIcon(classCharacter->getIconPath());
+					}
+				}
+			}
+		}
+	}
 }
 
 void CharacterSelection::update(float deltaTime)
@@ -38,11 +35,20 @@ void CharacterSelection::update(float deltaTime)
 
 void CharacterSelection::draw(sf::RenderWindow& target)
 {
-	for (auto& button : mButtons) {
-		button->draw(target);
+	if (mExtendedView == false)
+	{
+		for (auto& button : mClassesButtons) {
+			button->draw(target);
+		}
 	}
-
-	//mButtons->draw(target);
+	else
+	{
+		for (auto& button : mClassesButtons) {
+			button->mIsActive = false;
+		}
+		
+		mExtendedClassView->draw(target);
+	}
 }
 
 int CharacterSelection::initMusic()
@@ -64,14 +70,19 @@ void CharacterSelection::initText()
 
 void CharacterSelection::initClassesRectangles()
 {
-	const auto& classes = classManager.getAvailableClasses();
 	sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
 	int maxWidth = desktopMode.width;
 	int maxHeight = desktopMode.height;
+	mExtendedView = false;
 
+	mExtendedClassView = std::make_unique<ClassTab>(sf::Vector2f(maxWidth * 0.9,maxHeight * 0.9), sf::Vector2f(0.05 * maxWidth,0.05 * maxHeight), "Class info");
+	mExtendedClassView->shape.setOutlineColor(sf::Color::White); // Ensure shape is publicly accessible
+	mExtendedClassView->shape.setOutlineThickness(3.0f); // Adjust this thickness as needed
+
+	const auto& classes = classManager.getAvailableClasses();
 	// Define button size (same as a card size: 240px x 336px)
 	sf::Vector2f buttonSize(240.0f, 336.0f);
-	float padding = 20.0f;
+	float padding = 30.0f;
 
 	// Calculate how many buttons fit per row
 	size_t buttonsPerRow = maxWidth / (buttonSize.x + padding);
@@ -103,15 +114,17 @@ void CharacterSelection::initClassesRectangles()
 			float y = startY + row * (buttonSize.y + padding); // Vertical position
 
 			// Create button
-			mButtons.push_back(std::make_unique<Button>(buttonSize, sf::Vector2f(x, y), classes[i]->getName()));
+			mClassesButtons.push_back(std::make_unique<Button>(buttonSize, sf::Vector2f(x, y), classes[i]->getName()));
 
 			// Set the outline color and thickness of the button
-			mButtons.back()->shape.setOutlineColor(sf::Color::White); // Ensure shape is publicly accessible
-			mButtons.back()->shape.setOutlineThickness(3.0f); // Adjust this thickness as needed
+			mClassesButtons.back()->shape.setOutlineColor(sf::Color::White); // Ensure shape is publicly accessible
+			mClassesButtons.back()->shape.setOutlineThickness(3.0f); // Adjust this thickness as needed
 
+			mClassesButtons.back()->glowEffect.setFillColor(sf::Color::White); // White glow, semi-transparent
+			mClassesButtons.back()->mTextColorMouseOver = sf::Color::Black;
 			// Set onClick event for the button
-			mButtons.back()->setOnClick([this]() {
-				screenManager.switchScreen("Cutscene");
+			mClassesButtons.back()->setOnClick([this]() {
+				mExtendedView = true;
 				});
 		}
 	}

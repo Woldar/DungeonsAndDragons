@@ -9,5 +9,6 @@ public:
         mDeck.push_back(Card("Sword Strike", "A powerful strike with a sword."));
         mDeck.push_back(Card("Shield Bash", "Stun the enemy with a shield bash."));
         mDeck.push_back(Card("Battle Cry", "Increases attack power temporarily."));
+        mIconPath = "assets/classes/WarriorMale.png";
     }
 };

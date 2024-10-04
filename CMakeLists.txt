@@ -29,7 +29,7 @@ FetchContent_MakeAvailable(SFML)
 find_package(OpenGL REQUIRED)
 
 # Include directories
-include_directories(include include/Screens include/Managers)
+include_directories(include include/Screens include/Managers include/Classes include/Objects)
 
 # Link SFML and OpenGL libraries
 target_link_libraries(DungeonAndDragons PRIVATE sfml-graphics sfml-audio sfml-system sfml-network sfml-window OpenGL::GL)
