@@ -74,9 +74,9 @@ public:
         if (isMouseOver(window)) {
             mMouseIsOver = true;
             text.setFillColor(mTextColorMouseOver);
-            window.draw(glowEffect); // Draw the glow effect behind the button
             window.draw(shape);
             window.draw(icon);   // Draw the icon
+            window.draw(glowEffect); // Draw the glow effect behind the button
             window.draw(text);
             //shape.setFillColor(sf::Color::Green);
         }

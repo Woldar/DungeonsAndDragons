@@ -9,8 +9,38 @@ public:
         mDeck.push_back(Card("Sword Strike", "A powerful strike with a sword."));
         mDeck.push_back(Card("Shield Bash", "Stun the enemy with a shield bash."));
         mDeck.push_back(Card("Battle Cry", "Increases attack power temporarily."));
+
+        mHealth = 100;
+        mLuck = 1;
+        mGold = 1;
+
+        mResistanceBleed = 30;
+        mResistanceBlight = 0;
+        mResistanceStun = 30;
+        mResistanceDebuff = 20;
+        mReistanceMark = 30;
+        mReistanceFire = -10;
+        mResistanceFrost = -10;
+        mResistanceShadow = -10;
+
         mIconPath = "assets/classes/WarriorMale.png";
-        mSpecialAbilities = "Zdolnosci Specjalne:\n\n- Podczas walki rzucasz dwiema koscmi i wybierasz wynik\n- Mozesz korzystac z dwoch broni jednoczesnie\n\n";
-        mStartingStatistics = "Zdrowie: 100\nSzczescie : 1\nZloto : 1";
+        mSpecialAbilities = "Zdolnosci Specjalne:\n- Podczas walki rzucasz dwiema koscmi i wybierasz wynik\n- Mozesz korzystac z dwoch broni jednoczesnie\n\n";
+        mStartingStatistics = std::format(
+            "Zdrowie:    {:<3}\n"
+            "Szczescie:  {:<3}\n"
+            "Zloto:      {:<3}",
+            mHealth, mLuck, mGold);
+        // Format the string with fixed-width columns for alignment
+        mStartingResistances = std::format(
+            "Odpornosci:\n"
+            "-Krwawienie : {:>3}%   -Uroki      : {:>3}%\n"
+            "-Ogluszenie : {:>3}%   -Oslabienie : {:>3}%\n"
+            "-Oznaczenie : {:>3}%   -Ogien      : {:>3}%\n"
+            "-Mroz       : {:>3}%   -Mrok       : {:>3}%",
+            mResistanceBleed, mResistanceBlight,
+            mResistanceStun, mResistanceDebuff,
+            mReistanceMark, mReistanceFire,
+            mResistanceFrost, mResistanceShadow
+        );
     }
 };

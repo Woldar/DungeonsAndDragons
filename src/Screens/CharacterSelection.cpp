@@ -12,7 +12,7 @@ CharacterSelection::~CharacterSelection()
 
 void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
-	if (event.type == sf::Event::MouseButtonReleased) {
+	if (event.type == sf::Event::MouseButtonReleased && mExtendedView == false) {
 		for (auto& button : mClassesButtons) {
 			if (button->checkClickBool(event, window))
 			{
@@ -24,10 +24,27 @@ void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& w
 						mExtendedClassView->setIcon(classCharacter->getIconPath());
 						mExtendedClassView->textSpecialAbilities.setString(classCharacter->getSpecialAbilities());
 						mExtendedClassView->textStartingStatistics.setString(classCharacter->getStartingStatistics());
+						mExtendedClassView->textStartingResistances.setString(classCharacter->getStartingResistances());
 						mExtendedClassView->setTextsPositions();
 					}
 				}
 			}
+		}
+	}
+	else if (event.type == sf::Event::MouseButtonReleased && mExtendedView == true)
+	{
+		if (mExtendedClassView->mBackButton->mMouseIsOver)
+		{
+			mExtendedView = false;
+			for (auto& button : mClassesButtons) {
+				button->mIsActive = true;
+			}
+		}
+		else if (mExtendedClassView->mContinueButton->mMouseIsOver)
+		{
+			mExtendedView = false;
+			std::cout << "Switching to Loch Screen!" << std::endl;
+			screenManager.switchScreen("Loch");
 		}
 	}
 }
@@ -78,7 +95,7 @@ void CharacterSelection::initClassesRectangles()
 	int maxHeight = desktopMode.height;
 	mExtendedView = false;
 
-	mExtendedClassView = std::make_unique<ClassTab>(sf::Vector2f(maxWidth * 0.9,maxHeight * 0.9), sf::Vector2f(0.05 * maxWidth,0.05 * maxHeight), "Class info");
+	mExtendedClassView = std::make_unique<ClassTab>(sf::Vector2f(maxWidth * 0.9,maxHeight * 0.9), sf::Vector2f(0.05f * maxWidth,0.05f * maxHeight), "Class info");
 	mExtendedClassView->shape.setOutlineColor(sf::Color::White); // Ensure shape is publicly accessible
 	mExtendedClassView->shape.setOutlineThickness(3.0f); // Adjust this thickness as needed
 

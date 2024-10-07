@@ -18,11 +18,16 @@ public:
     sf::RectangleShape glowEffect; // This will be the glow around the ClassTab
     sf::Text textSpecialAbilities;
     sf::Text textStartingStatistics;
+    sf::Text textStartingResistances;
     sf::Font font;
+    sf::Font mFontMono;
     sf::Sprite icon;              // Icon sprite
     sf::Texture iconTexture;      // Texture for the icon
     sf::Color mTextColorMouseOver;
     sf::Color mTextColorMouseNotOver;
+
+    std::unique_ptr<Button> mContinueButton;
+    std::unique_ptr<Button> mBackButton;
     bool mMouseIsOver = false;
     bool mIsActive = true;
 
@@ -40,14 +45,15 @@ public:
         shape.setSize(size);
         shape.setPosition(position);
         shape.setFillColor(sf::Color(0, 0, 0, 0));
+        initButtons();
         
         sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
         int maxWidth = desktopMode.width;
         int maxHeight = desktopMode.height;
 
-        textSpecialAbilities.setFont(font);
+        textSpecialAbilities.setFont(mFontMono);
         textSpecialAbilities.setString(label);
-        textSpecialAbilities.setCharacterSize(32);
+        textSpecialAbilities.setCharacterSize(36);
         textSpecialAbilities.setFillColor(sf::Color::White);
         mTextColorMouseOver = sf::Color::White;
         mTextColorMouseNotOver = sf::Color::White;
@@ -56,10 +62,15 @@ public:
         textSpecialAbilities.setOrigin(textRectSpecialAbilities.left + textRectSpecialAbilities.width / 2.0f, textRectSpecialAbilities.top + textRectSpecialAbilities.height / 2.0f);
         textSpecialAbilities.setPosition(sf::Vector2f(maxWidth * 0.1f, maxHeight * 0.1f));
 
-        textStartingStatistics.setFont(font);
+        textStartingStatistics.setFont(mFontMono);
         textStartingStatistics.setString(label);
-        textStartingStatistics.setCharacterSize(32);
+        textStartingStatistics.setCharacterSize(36);
         textStartingStatistics.setFillColor(sf::Color::White);
+
+        textStartingResistances.setFont(mFontMono);
+        textStartingResistances.setString(label);
+        textStartingResistances.setCharacterSize(36);
+        textStartingResistances.setFillColor(sf::Color::White);
         mTextColorMouseOver = sf::Color::White;
         mTextColorMouseNotOver = sf::Color::White;
         // Center text inside the ClassTab
@@ -105,6 +116,9 @@ public:
             window.draw(icon); // Draw the icon with the shader applied
             window.draw(textSpecialAbilities);
             window.draw(textStartingStatistics);
+            window.draw(textStartingResistances);
+            mContinueButton->draw(window);
+            mBackButton->draw(window);
         }
         else
         {
@@ -115,6 +129,9 @@ public:
             window.draw(icon); // Draw the icon with the shader applied
             window.draw(textSpecialAbilities);
             window.draw(textStartingStatistics);
+            window.draw(textStartingResistances);
+            mContinueButton->draw(window);
+            mBackButton->draw(window);
         }
 
     }
@@ -126,6 +143,30 @@ public:
             std::cerr << "Error loading font!" << std::endl;
             return -1;
         }
+
+        if (!mFontMono.loadFromFile("assets/fonts/NotoSansMono-Bold.ttf"))  // Adjust the path to where your font is located
+        {
+            std::cerr << "Error loading font!" << std::endl;
+            return -1;
+        }
+    }
+
+    void initButtons()
+    {
+        sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+        int maxWidth = desktopMode.width;
+        int maxHeight = desktopMode.height;
+
+        float mButtonSize = 150;
+        mContinueButton = std::make_unique<Button>(sf::Vector2f(mButtonSize, mButtonSize), sf::Vector2f(0.9f * shape.getSize().x + shape.getPosition().x - mButtonSize/2, 0.9f * shape.getSize().y + shape.getPosition().y - mButtonSize/2), "");
+        mContinueButton->setIcon("assets/icons/checkButton.png");
+        // Set the button click callback
+        mContinueButton->setOnClick([this]() {
+            //screenManager.switchScreen("Cutscene");
+            });
+
+        mBackButton = std::make_unique<Button>(sf::Vector2f(mButtonSize, mButtonSize), sf::Vector2f(0.1f * shape.getSize().x + shape.getPosition().x - mButtonSize/2, 0.9f * shape.getSize().y + shape.getPosition().y - mButtonSize/2), "");
+        mBackButton->setIcon("assets/icons/declineButton.png");
     }
 
     // Check if the ClassTab was clicked
@@ -188,6 +229,7 @@ public:
         int maxWidth = desktopMode.width;
         int maxHeight = desktopMode.height;
 
-        textStartingStatistics.setPosition(maxWidth * 0.1f, textSpecialAbilities.getGlobalBounds().getPosition().y + textSpecialAbilities.getGlobalBounds().getSize().y);
+        textStartingStatistics.setPosition(maxWidth * 0.1f, textSpecialAbilities.getGlobalBounds().getPosition().y + textSpecialAbilities.getGlobalBounds().getSize().y + 20);
+        textStartingResistances.setPosition(maxWidth * 0.1f, textStartingStatistics.getGlobalBounds().getPosition().y + textStartingStatistics.getGlobalBounds().getSize().y + 20);
     }
 };
