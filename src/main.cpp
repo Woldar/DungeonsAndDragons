@@ -5,6 +5,10 @@ int main()
     //Initialize random seed
     srand(static_cast<unsigned>(time(0)));
 
+    // Enable anti-aliasing (multisampling) via context settings
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;  // Use 8x antialiasing (or 4x for lower quality)
+
     //Initialize objects
     Game game;
 

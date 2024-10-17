@@ -87,6 +87,14 @@ public:
 	void resumeMusic() override {
 		music.play();
 	}
+
+	void resetScreen() override {
+
+	}
+
+	void setScreen(const std::string& aView) override {
+
+	}
 private:
 	ScreenManager& screenManager;
 	ClassManager classManager;

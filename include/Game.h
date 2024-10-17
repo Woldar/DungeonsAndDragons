@@ -14,6 +14,7 @@
 #include "Cutscene.h"
 #include "Menu.h"
 #include "CharacterSelection.h"
+#include "Map.h"
 #include "Managers/ScreenManager.h"
 
 class Game

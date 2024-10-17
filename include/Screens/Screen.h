@@ -21,4 +21,8 @@ public:
     virtual void pauseMusic() = 0;
 
     virtual void resumeMusic() = 0;
+
+    virtual void resetScreen() = 0;
+
+    virtual void setScreen(const std::string& aView) = 0;
 };

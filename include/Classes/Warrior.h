@@ -11,7 +11,7 @@ public:
         mDeck.push_back(Card("Battle Cry", "Increases attack power temporarily."));
 
         mHealth = 100;
-        mLuck = 1;
+        mWill = 1;
         mGold = 1;
 
         mResistanceBleed = 30;
@@ -26,10 +26,10 @@ public:
         mIconPath = "assets/classes/WarriorMale.png";
         mSpecialAbilities = "Zdolnosci Specjalne:\n- Podczas walki rzucasz dwiema koscmi i wybierasz wynik\n- Mozesz korzystac z dwoch broni jednoczesnie\n\n";
         mStartingStatistics = std::format(
-            "Zdrowie:    {:<3}\n"
-            "Szczescie:  {:<3}\n"
-            "Zloto:      {:<3}",
-            mHealth, mLuck, mGold);
+            "Zdrowie:    {:>3}\n"
+            "Sila Woli:  {:>3}\n"
+            "Zloto:      {:>3}",
+            mHealth, mWill, mGold);
         // Format the string with fixed-width columns for alignment
         mStartingResistances = std::format(
             "Odpornosci:\n"

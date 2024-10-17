@@ -16,6 +16,7 @@ public:
     void setText(std::string aText);
     void update();
     void initText(std::string aString, bool aAnimate, int aSize, std::string aPlacement);
+    void initText(std::string aString, bool aAnimate, int aSize, std::string aPlacement, sf::Vector2f aPosition);
     bool state;
     float mPadding = 10.0f;
 private:
@@ -26,14 +27,16 @@ private:
     int maxWidth;
     int maxHeight;
     std::string mPlacement;
+    sf::Vector2f mPosition;
     std::string displayedText = "";
     std::string wrappedText;
     size_t textLength;
-    float typingSpeed = 0.05f;  // Time between letters (in seconds)
+    float typingSpeed = 0.01f;  // Time between letters (in seconds)
     sf::Clock clock;  // Clock to measure time
 
     int initFont();
 
     std::string wrapText(const std::string& str, sf::Font& font, unsigned int characterSize, float maxWidth);
     void place();
+    void placeBeside(sf::Vector2f aPosition);
 };

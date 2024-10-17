@@ -61,6 +61,27 @@ void Text::initText(std::string aString,bool aAnimate, int aSize, std::string aP
     this->mText.setStyle(sf::Text::Regular);
 }
 
+void Text::initText(std::string aString, bool aAnimate, int aSize, std::string aPlacement, sf::Vector2f aPosition)
+{
+    mAnimate = aAnimate;
+    state = false;
+    std::string temporaryString = aString;
+    mPlacement = "Below";
+    mPosition = aPosition;
+    int mCharacterSize = aSize;
+
+    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+    this->maxWidth = desktopMode.width - 40;
+    this->maxHeight = desktopMode.height - 40;
+    this->wrappedText = wrapText(temporaryString, font, mCharacterSize, maxWidth); //size of monitor
+    this->textLength = wrappedText.length();
+
+    this->mText.setFont(font);
+    this->mText.setCharacterSize(mCharacterSize);  // Text size
+    this->mText.setFillColor(sf::Color::White);
+    this->mText.setStyle(sf::Text::Regular);
+}
+
 int Text::initFont()
 {
     if (!font.loadFromFile("assets/fonts/MoriaCitadel.ttf"))  // Adjust the path to where your font is located
@@ -116,19 +137,32 @@ void Text::place()
         float centerY = (maxHeight - textBounds.height) / 2 - textBounds.top + mPadding;
         mText.setPosition(centerX, centerY);
     }
-    if (mPlacement == "LeftSide")
+    else if (mPlacement == "LeftSide")
     {
         sf::FloatRect textBounds = mText.getLocalBounds();
         float leftSideX = -textBounds.left + mPadding;
         float centerY = (maxHeight - textBounds.height) / 2 - textBounds.top + mPadding;
         mText.setPosition(leftSideX, centerY);
     }
-    if (mPlacement == "RightDownCorner")
+    else if (mPlacement == "RightDownCorner")
     {
         sf::FloatRect textBounds = mText.getLocalBounds();
         float rightX = maxWidth - textBounds.width - textBounds.left + mPadding;  // Position for right alignment
         float bottomY = maxHeight - textBounds.height - textBounds.top + mPadding; // Position for bottom alignment
         mText.setPosition(rightX, bottomY);
     }
+    else
+    {
+        placeBeside(mPosition);
+    } 
 
+}
+
+void Text::placeBeside(sf::Vector2f aPosition)
+{
+    if (mPlacement == "Below")
+    {
+        sf::FloatRect textBounds = mText.getLocalBounds();
+        mText.setPosition(aPosition.x-textBounds.width/2 + mPadding, aPosition.y + textBounds.height + mPadding);
+    }
 }

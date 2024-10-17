@@ -28,7 +28,7 @@ protected:
     std::string mStartingStatistics;
     std::string mStartingResistances;
     int mHealth;
-    int mLuck;
+    int mWill;
     int mGold;
 
     float mResistanceBleed;

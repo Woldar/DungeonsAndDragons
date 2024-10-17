@@ -43,8 +43,10 @@ void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& w
 		else if (mExtendedClassView->mContinueButton->mMouseIsOver)
 		{
 			mExtendedView = false;
-			std::cout << "Switching to Loch Screen!" << std::endl;
-			screenManager.switchScreen("Loch");
+			std::cout << "Switching to Cutscene Wakeup Screen!" << std::endl;
+			screenManager.switchScreen("Cutscene");
+			screenManager.getCurrentScreen()->setScreen("Wakeup");
+			screenManager.getCurrentScreen()->resetScreen();
 		}
 	}
 }

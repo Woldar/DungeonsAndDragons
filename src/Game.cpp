@@ -9,9 +9,10 @@ void Game::initWindow()
 	//this->screenManager.getOpenGLManager()->initOpenGL();
 
 	screenManager.addScreen("Loch", std::make_unique<Dungeon>(screenManager));
-	screenManager.addScreen("Cutscene", std::make_unique<Cutscene>(screenManager));
+	screenManager.addScreen("Cutscene", std::make_unique<Cutscene>(screenManager, "Start"));
 	screenManager.addScreen("Menu", std::make_unique<Menu>(screenManager));
 	screenManager.addScreen("CharacterSelection", std::make_unique<CharacterSelection>(screenManager));
+	screenManager.addScreen("Map", std::make_unique<Map>(screenManager));
 
 	screenManager.switchScreen("Menu");
 	//music.setLoop(true);

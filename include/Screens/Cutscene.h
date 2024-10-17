@@ -18,7 +18,7 @@
 class Cutscene : public Screen
 {
 public:
-	Cutscene(ScreenManager& screenManager);
+	Cutscene(ScreenManager& screenManager, std::string aView);
 	~Cutscene();
 
 	void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
@@ -32,14 +32,26 @@ public:
 	void resumeMusic() override {
 		music.play();
 	}
+
+	void resetScreen() override {
+		initText();
+		initIcon();
+	}
+
+	void setScreen(const std::string& aView) override {
+		mView = aView;
+	}
+
+
 private:
 	ScreenManager& screenManager;
 	sf::Music music;
-	Text mText[2];
-	std::unique_ptr<Button> mPlayButton[2];
+	std::unique_ptr<Text> mText[2];
+	sf::Sprite icon;              // Icon sprite
+	sf::Texture iconTexture;      // Texture for the icon
 
-	float backgroundAlpha;  // Control the fade effect for the background
-
+	std::string mView;
 	int initMusic();
 	void initText();
+	void initIcon();
 };

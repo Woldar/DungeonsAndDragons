@@ -30,7 +30,18 @@ public:
     sf::SoundBuffer clickSoundBuffer;
     sf::Sound clickSound;
 
-    Button(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label/*, std::string aType*/) {
+    Button()
+    {
+        glowEffect.setFillColor(sf::Color(0, 0, 0, 100)); // Yellow glow, semi-transparent
+
+        if (!clickSoundBuffer.loadFromFile("assets/music/old-radio-button-click-97549.mp3")) {
+            // Handle error
+            std::cerr << "Failed to load sound: " << "assets/music/old-radio-button-click-97549.mp3" << std::endl;
+        }
+        clickSound.setBuffer(clickSoundBuffer);
+    };
+
+    Button(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label) {
         initFont();
         mSize = size;
         shape.setSize(size);
@@ -160,6 +171,45 @@ public:
         else {
             std::cerr << "Failed to load icon texture\n";
         }
+    }
+
+    void setIcon(const std::string& iconPath, float aScale)
+    {
+        if (iconTexture.loadFromFile(iconPath)) {
+            icon.setTexture(iconTexture);
+
+            // Calculate the scale to ensure the icon fits within the button
+            float iconScale = aScale;          // Choose the smaller scale to keep proportions
+            icon.setScale(iconScale, iconScale);
+
+            // Get the scaled icon's size
+            sf::FloatRect iconBounds = icon.getGlobalBounds();
+
+            // Position the icon in the center of the button
+            icon.setPosition(
+                shape.getPosition().x + mSize.x / 2.0f - (0.5f * iconBounds.width),   // Button's horizontal center
+                shape.getPosition().y + mSize.y / 2.0f - (0.5f * iconBounds.height)    // Button's vertical center
+            );
+        }
+        else {
+            std::cerr << "Failed to load icon texture\n";
+        }
+    }
+
+    void setPosition(const sf::Vector2f& position)
+    {
+        shape.setPosition(position);
+
+        glowEffect.setPosition({ position.x - 10.0f, position.y - 10.0f }); // Centered around the button
+    }
+
+    void setSize(const sf::Vector2f& size)
+    {
+        mSize = size;
+        shape.setSize(size);
+
+        // Glow effect setup (a larger rectangle surrounding the button)
+        glowEffect.setSize({ size.x + 20.0f, size.y + 20.0f }); // Slightly larger than the button
     }
 
     sf::Vector2f getCenter() const {

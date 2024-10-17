@@ -11,7 +11,7 @@ public:
         mDeck.push_back(Card("Disease", "Protect yourself with a magical shield."));
 
         mHealth = 80;
-        mLuck = 4;
+        mWill = 4;
         mGold = 1;
 
         mResistanceBleed = 0;
@@ -27,9 +27,9 @@ public:
         mSpecialAbilities = "Zdolnosci Specjalne:\n- Gdy dotrzesz do lasu mozesz rzucic zaklecia\n- Mozesz dobierac swoj charakter do swoich potrzeb";
         mStartingStatistics = std::format(
             "Zdrowie:    {:>3}\n"
-            "Szczescie:  {:>3}\n"
+            "Sila woli:  {:>3}\n"
             "Zloto:      {:>3}",
-            mHealth, mLuck, mGold);
+            mHealth, mWill, mGold);
         // Format the string with fixed-width columns for alignment
         mStartingResistances = std::format(
             "Odpornosci:\n"
