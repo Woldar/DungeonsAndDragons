@@ -1,6 +1,6 @@
 #include "Screens/Map.h"
 
-Map::Map(ScreenManager& screenManager) : screenManager(screenManager)
+Map::Map(ScreenManager& screenManager) : screenManager(screenManager), mDice(sf::Vector2f(0, 0), sf::Vector2f(100, 100))
 {
     initMusic();
     initBackground();
@@ -31,7 +31,7 @@ void Map::update(float deltaTime)
 void Map::draw(sf::RenderWindow& target)
 {
     target.draw(mCharacterCircle);
-
+    mDice.draw(target);
     // Loop through the array of RouteToPlace and draw each route and place
     for (int i = 0; i < 6; ++i) {
         // Draw the line (route) first

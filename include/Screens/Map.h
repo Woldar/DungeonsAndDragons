@@ -4,6 +4,7 @@
 #include "Screen.h"
 #include "Managers/ScreenManager.h"
 #include "Shaders.h"
+#include "Dice.h"
 //#include "Managers/MusicManager.h"
 
 #include <string>
@@ -52,6 +53,7 @@ private:
 	std::shared_ptr<sf::Shader> mDimmingShader; // Shader for screen dimming 
 	std::shared_ptr<sf::Shader> mBrighteningShader; // Shader for screen brightning
     std::unique_ptr<Text> mText[2];
+    Dice mDice;
 
 	sf::CircleShape mCharacterCircle;  // Character is represented as a circle
 
