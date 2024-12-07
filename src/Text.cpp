@@ -61,7 +61,7 @@ void Text::initText(std::string aString,bool aAnimate, int aSize, std::string aP
     this->mText.setStyle(sf::Text::Regular);
 }
 
-void Text::initText(std::string aString, bool aAnimate, int aSize, std::string aPlacement, sf::Vector2f aPosition)
+void Text::initText(std::string aString, bool aAnimate, int aSize, sf::Vector2f aPosition)
 {
     mAnimate = aAnimate;
     state = false;
@@ -91,7 +91,7 @@ int Text::initFont()
     }
 }
 
-sf::Text Text::getText()
+sf::Text& Text::getText()
 {
     return this->mText;
 }
@@ -99,8 +99,16 @@ sf::Text Text::getText()
 void Text::setText(std::string aText)
 {
     mText.setString(aText);
-    this->wrappedText = "";
-    this->displayedText = "";
+    this->wrappedText = wrapText(aText, font, mText.getCharacterSize(), maxWidth); //size of monitor
+    if (mAnimate)
+    {
+        this->displayedText = "";
+    }
+    else
+    {
+        this->displayedText = aText;
+    }
+
 }
 
 void Text::update()
@@ -151,6 +159,13 @@ void Text::place()
         float bottomY = maxHeight - textBounds.height - textBounds.top + mPadding; // Position for bottom alignment
         mText.setPosition(rightX, bottomY);
     }
+    //else if (mPlacement == "RightTopCorner")
+    //{
+    //    sf::FloatRect textBounds = mText.getLocalBounds();
+    //    float rightX = maxWidth - textBounds.width - textBounds.left + mPadding;  // Position for right alignment
+    //    float bottomY = maxHeight - textBounds.height - textBounds.top + mPadding; // Position for bottom alignment
+    //    mText.setPosition(rightX, bottomY);
+    //}
     else
     {
         placeBeside(mPosition);

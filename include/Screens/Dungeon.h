@@ -1,11 +1,9 @@
 #pragma once
-#include "Bohater.h"
-#include "Poziom_Lochu.h"
 #include "Text.h"
 #include "Screen.h"
 #include "Managers/ScreenManager.h"
-//#include "Managers/MusicManager.h"
 #include "Objects/Button.h"
+#include "Enemies/EnemyLoader.h"
 
 #include <string>
 #include <string.h>
@@ -28,6 +26,7 @@ public:
 
 	void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
 	void update(float deltaTime) override;
+	void updateGameState() override;
 	void draw(sf::RenderWindow& target) override;
 	void pauseMusic() override {
 		music.pause();
@@ -44,28 +43,26 @@ public:
 	void setScreen(const std::string& aView) override {
 
 	}
+
 private:
 	sf::Music music;
 	Text mText;
-	std::unique_ptr<Bohater> mBohater;
-	std::unique_ptr<Poziom_Lochu> mPoziom[10];
-	std::unique_ptr<Button> mPlayButton[2];
 
-	float backgroundAlpha;  // Control the fade effect for the background
+	sf::Texture backgroundTexture; // Texture to hold the background image
+	sf::Sprite backgroundSprite;   // Sprite to display the texture
 
-	int wybor=0;
-	int poziomLochu=0;
-	void wybierzBohatera();
-	void menuGracza();
+	sf::Texture enemyTexture; // Texture to hold the background image
+	sf::Sprite enemySprite;   // Sprite to display the texture
 
-	void menuPrzeciwnika();
-	void walka();
-	void grabujPrzeciwnika(int iloscP, int iloscB);
-	void wyjatek();
-	void zwolnijPamiec();
+	sf::Sprite playerSprite;              // Icon sprite
+	sf::Texture playerTexture;      // Texture for the icon
 
 	int initMusic();
 	void initText();
+	void initBackground();
+
+	void initTextures();
 
 	ScreenManager& screenManager;
+	//EnemyLoader enemyLoader;
 };

@@ -29,6 +29,7 @@ void Cutscene::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 				screenManager.switchScreen("CharacterSelection");
 			}
 			else if (mView == "Wakeup")
+
 			{
 				std::cout << "Switching to CharacterSelection Screen!" << std::endl;
 				screenManager.switchScreen("Map");
@@ -60,6 +61,10 @@ void Cutscene::update(float deltaTime)
 {
 	mText[0]->update();
 	mText[1]->update();
+}
+
+void Cutscene::updateGameState()
+{
 }
 
 void Cutscene::draw(sf::RenderWindow& target)

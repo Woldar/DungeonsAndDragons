@@ -5,10 +5,12 @@
 #include <unordered_map>
 #include <string>
 #include "Screen.h"
+#include "Objects/GameState.h"
 #include "OpenGLManager.h"
 
 class ScreenManager {
 public:
+
     void addScreen(const std::string& name, std::unique_ptr<Screen> screen) {
         screens[name] = std::move(screen);
         currentScreen = screens[name].get();

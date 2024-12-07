@@ -4,7 +4,6 @@
 #include "Screen.h"
 #include "Managers/ScreenManager.h"
 #include "Shaders.h"
-//#include "Managers/MusicManager.h"
 
 #include <string>
 #include <string.h>
@@ -24,6 +23,7 @@ public:
 
 	void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
 	void update(float deltaTime) override;
+	void updateGameState() override;
 	void draw(sf::RenderWindow& target) override;
 
 	void pauseMusic() override{

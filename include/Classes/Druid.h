@@ -6,9 +6,9 @@ class Druid : public CharacterClass {
 public:
     Druid() : CharacterClass("Druid") {
         // Add cards to the Mage's deck
-        mDeck.push_back(Card("Plague", "Cast a powerful fireball at the enemy."));
-        mDeck.push_back(Card("Heal", "Freeze the enemy with an ice blast."));
-        mDeck.push_back(Card("Disease", "Protect yourself with a magical shield."));
+        mDeck->addCard(std::make_shared<Card>("Plague", "Cast a powerful fireball at the enemy.", Card::CardType::DAMAGE, 5));
+        mDeck->addCard(std::make_shared<Card>("Heal", "Freeze the enemy with an ice blast.", Card::CardType::ARMOR, 5));
+        mDeck->addCard(std::make_shared<Card>("Disease", "Protect yourself with a magical shield.", Card::CardType::ARMOR, 5));
 
         mHealth = 80;
         mWill = 4;

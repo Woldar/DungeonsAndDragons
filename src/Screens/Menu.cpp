@@ -25,6 +25,10 @@ void Menu::update(float deltaTime)
 {
 }
 
+void Menu::updateGameState()
+{
+}
+
 void Menu::draw(sf::RenderWindow& target)
 {
     // Get the size of the window to calculate the flipped Y-axis

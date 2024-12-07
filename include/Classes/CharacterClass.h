@@ -3,26 +3,46 @@
 #include <string>
 #include <vector>
 #include <format>  // For std::format (C++20)
-#include "Card.h"
+#include "Objects/Card.h"
+#include "Deck.h"
 
 class CharacterClass {
 public:
-    CharacterClass(const std::string& name) : mName(name) {}
+    CharacterClass() 
+    {
+        mDeck = std::make_shared<Deck>();
+    };
+    CharacterClass(const std::string& name) : mName(name) 
+    {
+        mDeck = std::make_shared<Deck>();
+    }
 
     virtual ~CharacterClass() = default;
 
     std::string getName() const { return mName; }
     std::string getIconPath() const { return mIconPath; }
+    int getHealth() const { return mHealth; }
+    int getWill() const { return mWill; }
+    int getGold() const { return mGold; }
+
+    float getResistanceBleed() const { return mResistanceBleed; }
+    float getResistanceBlight() const { return mResistanceBlight; }
+    float getResistanceStun() const { return mResistanceStun; }
+    float getResistanceDebuff() const{ return mResistanceDebuff; }
+    float getReistanceMark() const { return mReistanceMark; }
+    float getReistanceFire() const{ return mReistanceFire; }
+    float getResistanceFrost() const{ return mResistanceFrost; }
+    float getResistanceShadow() const{ return mResistanceShadow; }
+
+    std::string getWillString() const { return std::to_string(mWill); }
     std::string getSpecialAbilities() const { return mSpecialAbilities; }
     std::string getStartingStatistics() const { return mStartingStatistics; }
     std::string getStartingResistances() const { return mStartingResistances; }
-
-    // Return the deck of cards for this character class
-    const std::vector<Card>& getDeck() const { return mDeck; }
+    std::shared_ptr<Deck> getClassCards() { return mDeck; }
 
 protected:
+    std::shared_ptr<Deck> mDeck;
     std::string mName;
-    std::vector<Card> mDeck;  // Deck of cards specific to the character class
     std::string mIconPath;
     std::string mSpecialAbilities;
     std::string mStartingStatistics;

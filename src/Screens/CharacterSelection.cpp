@@ -26,6 +26,7 @@ void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& w
 						mExtendedClassView->textStartingStatistics.setString(classCharacter->getStartingStatistics());
 						mExtendedClassView->textStartingResistances.setString(classCharacter->getStartingResistances());
 						mExtendedClassView->setTextsPositions();
+						GameState::getInstance().setPlayerClass(*classCharacter);
 					}
 				}
 			}
@@ -52,6 +53,10 @@ void CharacterSelection::handleEvent(const sf::Event& event, sf::RenderWindow& w
 }
 
 void CharacterSelection::update(float deltaTime)
+{
+}
+
+void CharacterSelection::updateGameState()
 {
 }
 

@@ -12,11 +12,11 @@ class Text
 public:
     Text();
     ~Text();
-    sf::Text getText();
+    sf::Text& getText();
     void setText(std::string aText);
     void update();
     void initText(std::string aString, bool aAnimate, int aSize, std::string aPlacement);
-    void initText(std::string aString, bool aAnimate, int aSize, std::string aPlacement, sf::Vector2f aPosition);
+    void initText(std::string aString, bool aAnimate, int aSize, sf::Vector2f aPosition);
     bool state;
     float mPadding = 10.0f;
 private:

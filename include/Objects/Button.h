@@ -19,6 +19,9 @@ public:
     sf::Font font;
     sf::Sprite icon;              // Icon sprite
     sf::Texture iconTexture;      // Texture for the icon
+    bool renderAlternativeIcon = false;
+    sf::Sprite alternativeIcon;              // Icon sprite
+    sf::Texture alternativeIconTexture;      // Texture for the icon
     sf::Color mTextColorMouseOver;
     sf::Color mTextColorMouseNotOver;
     bool mMouseIsOver = false;
@@ -86,7 +89,7 @@ public:
             mMouseIsOver = true;
             text.setFillColor(mTextColorMouseOver);
             window.draw(shape);
-            window.draw(icon);   // Draw the icon
+            window.draw(alternativeIcon);   // Draw the icon
             window.draw(glowEffect); // Draw the glow effect behind the button
             window.draw(text);
             //shape.setFillColor(sf::Color::Green);
@@ -196,6 +199,54 @@ public:
         }
     }
 
+    void setAlternativeIcon(const std::string& iconPath)
+    {
+        if (alternativeIconTexture.loadFromFile(iconPath)) {
+            alternativeIcon.setTexture(alternativeIconTexture);
+
+            // Calculate the scale to ensure the icon fits within the button
+            float iconScaleX = mSize.x / alternativeIconTexture.getSize().x * 0.8f;  // 50% of button width
+            float iconScaleY = mSize.y / alternativeIconTexture.getSize().y * 0.8f;  // 50% of button height
+            float iconScale = std::min(iconScaleX, iconScaleY);          // Choose the smaller scale to keep proportions
+            alternativeIcon.setScale(iconScale, iconScale);
+
+            // Get the scaled icon's size
+            sf::FloatRect iconBounds = alternativeIcon.getGlobalBounds();
+
+            // Position the icon in the center of the button
+            alternativeIcon.setPosition(
+                shape.getPosition().x + mSize.x / 2.0f - (0.5f * iconBounds.width),   // Button's horizontal center
+                shape.getPosition().y + mSize.y / 2.0f - (0.5f * iconBounds.height)    // Button's vertical center
+            );
+        }
+        else {
+            std::cerr << "Failed to load icon texture\n";
+        }
+    }
+
+    void setAlternativeIcon(const std::string& iconPath, float aScale)
+    {
+        if (alternativeIconTexture.loadFromFile(iconPath)) {
+            alternativeIcon.setTexture(alternativeIconTexture);
+
+            // Calculate the scale to ensure the icon fits within the button
+            float iconScale = aScale;          // Choose the smaller scale to keep proportions
+            alternativeIcon.setScale(iconScale, iconScale);
+
+            // Get the scaled icon's size
+            sf::FloatRect iconBounds = icon.getGlobalBounds();
+
+            // Position the icon in the center of the button
+            alternativeIcon.setPosition(
+                shape.getPosition().x + mSize.x / 2.0f - (0.5f * iconBounds.width),   // Button's horizontal center
+                shape.getPosition().y + mSize.y / 2.0f - (0.5f * iconBounds.height)    // Button's vertical center
+            );
+        }
+        else {
+            std::cerr << "Failed to load icon texture\n";
+        }
+    }
+
     void setPosition(const sf::Vector2f& position)
     {
         shape.setPosition(position);
@@ -219,5 +270,9 @@ public:
 
     sf::RectangleShape getShape() const {
         return shape;
+    }
+
+    sf::Vector2f getSize() const {
+        return shape.getSize();
     }
 };

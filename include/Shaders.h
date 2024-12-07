@@ -105,3 +105,16 @@ inline void brighteningShader(sf::Shader& brighteningShader, sf::RenderWindow& t
 
 	//aIcon->draw(target);
 }
+
+inline void blurShader(std::shared_ptr<sf::Shader> blurShader, sf::RenderTexture& renderTexture, float blurRadius) {
+	// Set shader parameters
+	blurShader->setUniform("texture", renderTexture.getTexture());
+	blurShader->setUniform("resolution", sf::Vector2f(renderTexture.getSize()));
+	blurShader->setUniform("radius", blurRadius);
+
+	// Draw the screen with the blur shader applied
+	sf::Sprite sprite(renderTexture.getTexture());
+	renderTexture.clear();
+	renderTexture.draw(sprite, blurShader.get());
+	renderTexture.display();
+}

@@ -6,9 +6,9 @@ class Warrior : public CharacterClass {
 public:
     Warrior() : CharacterClass("Warrior") {
         // Add cards to the Warrior's deck
-        mDeck.push_back(Card("Sword Strike", "A powerful strike with a sword."));
-        mDeck.push_back(Card("Shield Bash", "Stun the enemy with a shield bash."));
-        mDeck.push_back(Card("Battle Cry", "Increases attack power temporarily."));
+        mDeck->addCard(std::make_shared<Card>("Sword Strike", "A powerful strike with a sword.", Card::CardType::DAMAGE, 5));
+        mDeck->addCard(std::make_shared<Card>("Shield Bash", "Stun the enemy with a shield bash.", Card::CardType::ARMOR, 5));
+        mDeck->addCard(std::make_shared<Card>("Battle Cry", "Increases attack power temporarily.", Card::CardType::DAMAGE, 5));
 
         mHealth = 100;
         mWill = 1;

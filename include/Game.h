@@ -16,6 +16,7 @@
 #include "CharacterSelection.h"
 #include "Map.h"
 #include "Managers/ScreenManager.h"
+#include "Objects/GameState.h"
 
 class Game
 {
@@ -33,7 +34,6 @@ public:
 	sf::RenderWindow* window;
 	ScreenManager screenManager;
 	sf::Clock clock;
-	//sf::Music music;
 
 	//Accessors
 

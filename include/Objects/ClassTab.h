@@ -30,7 +30,7 @@ public:
     std::unique_ptr<Button> mBackButton;
     bool mMouseIsOver = false;
     bool mIsActive = true;
-
+    CharacterClass mCharacterClass;
     std::function<void()> onClick; // Callback function for click event
 
     // Sound variables
@@ -39,7 +39,8 @@ public:
 
     sf::Shader mDimmingShader;  // Shader for dimming effect
 
-    ClassTab(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label/*, std::string aType*/) {
+    ClassTab(const sf::Vector2f& size, const sf::Vector2f& position, const std::string& label)
+    {
         initFont();
         mSize = size;
         shape.setSize(size);

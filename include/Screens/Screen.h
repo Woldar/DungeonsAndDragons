@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-
+#include "Objects/GameState.h"
 
 class Screen {
 public:
@@ -14,6 +14,8 @@ public:
 
     // Update the screen's state
     virtual void update(float deltaTime) = 0;
+
+    virtual void updateGameState() = 0;
 
     // Draw the screen
     virtual void draw(sf::RenderWindow& target) = 0;
